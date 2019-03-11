@@ -16,12 +16,15 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1551707547490_5098';
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = ['adminAuth'];
 
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
   };
+  config.adminAuth = {
+    match:'/admin'
+  }
 
   config.session = {
     key: 'SESSION_ID',

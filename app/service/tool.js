@@ -12,7 +12,6 @@ class ToolService extends Service {
         height:40,
         background:"#cc9966" 
       });
-      console.log('captcha', captcha.text)
     this.ctx.session.code = captcha.text;
 
 
