@@ -23,6 +23,13 @@ module.exports = appInfo => {
     // myAppName: 'egg',
   };
 
+  config.session = {
+    key: 'SESSION_ID',
+    maxAge: 864000,
+    httpOnly: true,
+    encrpty: true,
+    renew: true
+  }
 
   config.view = {
     mapping: {
