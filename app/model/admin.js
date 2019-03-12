@@ -11,8 +11,8 @@ module.exports = app => {
       status: { type: Number,defaulr:1  },
       role_id: { type: Schema.Types.ObjectId  },
       add_time: { type: Number, default: date.getTime()  },
-      is_super: { type: Number  },
+      is_super: { type: Number, default: 1}, // 是否是超级管理员，1 ：超级管理员
     });
   
-    return mongoose.model('User', AdminSchema);
+    return mongoose.model('admin', AdminSchema,'admin');
   }

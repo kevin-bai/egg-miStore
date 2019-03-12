@@ -10,7 +10,7 @@ module.exports = app => {
   router.get('/admin/login', controller.admin.login.index);
   
   router.post('/admin/doLogin', controller.admin.login.doLogin);
-  
+
   router.get('/admin/loginOut', controller.admin.login.loginOut);
 
   router.get('/admin/verify', controller.admin.base.captcha);
@@ -22,6 +22,8 @@ module.exports = app => {
   router.get('/admin/role', controller.admin.role.index);
   router.get('/admin/role/add', controller.admin.role.add);
   router.get('/admin/role/edit', controller.admin.role.edit);
+  router.post('/admin/role/doAdd', controller.admin.role.doAdd);
+  router.post('/admin/role/doEdit', controller.admin.role.doEdit);
 
   router.get('/admin/access', controller.admin.access.index);
   router.get('/admin/access/add', controller.admin.access.add);

@@ -12,11 +12,11 @@ class ManagerController extends BaseController {
     }
 
     async add() {
-        this.ctx.body = 'add admin'
+        await this.ctx.render('admin/manager/add')
     }
 
     async edit() {
-        this.ctx.body = 'edit admin'
+        await this.ctx.render('admin/manager/edit')
     }
 }
 

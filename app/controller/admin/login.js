@@ -22,7 +22,7 @@ class LoginController extends BaseController {
         if (code.toUpperCase() === this.ctx.session.code.toUpperCase()) {
 
 
-            // 链接mongoose 验证用户名密码
+            // todo 链接mongoose 验证用户名密码
 
 
             this.ctx.session.userinfo = {
@@ -35,7 +35,6 @@ class LoginController extends BaseController {
             // this.ctx.redirect('admin/error','验证码错误')
             await this.error('/admin/error', '验证码错误')
         }
-
     }
 
     async loginOut(){

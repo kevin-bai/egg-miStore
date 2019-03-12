@@ -4,18 +4,33 @@ const BaseController = require('./base');
 
 class RoleController extends BaseController {
     async index() {
-        const {
-            ctx
-        } = this
-        ctx.body = 'role list'
+        await this.ctx.render('/admin/role/index')
     }
 
     async add() {
-        this.ctx.body = 'add role'
+        // this.ctx.body = 'add role'
+        await this.ctx.render('/admin/role/add')
+    }
+    async doAdd() {
+        // this.ctx.body = 'add role'
+        console.log(this.ctx.request.body)
+
+        //todo 存入数据库
+
+        await this.success('/admin/role','添加角色成功')
     }
 
     async edit() {
-        this.ctx.body = 'edit role'
+        await this.ctx.render('/admin/role/edit')
+    }
+
+    async doEdit() {
+        // this.ctx.body = 'add role'
+        console.log(this.ctx.request.body)
+
+        //todo 存入数据库
+
+        await this.success('/admin/role','添加角色成功')
     }
 }
 

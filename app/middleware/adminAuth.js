@@ -2,7 +2,8 @@ const url = require('url')
 module.exports = options => {
     return async function adminAuth(ctx, next) {
         //全局变量
-        ctx.locals.csrf = ctx.csrf
+        ctx.locals.csrf = ctx.csrf // csrf token
+        ctx.locals.prevPage = ctx.request.headers['referer'] // 上一页地址
 
         if (ctx.session.userinfo) {
             await next()
