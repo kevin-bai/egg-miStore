@@ -1,7 +1,6 @@
 const url = require('url')
 module.exports = options => {
     return async function adminAuth(ctx, next) {
-
         //全局变量
         ctx.locals.csrf = ctx.csrf
 
