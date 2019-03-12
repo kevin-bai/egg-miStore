@@ -25,14 +25,22 @@ class LoginController extends BaseController {
             // 链接mongoose 验证用户名密码
 
 
+            this.ctx.session.userinfo = {
+                username:username,
+                password:password
+            }
 
-
-            await this.success('admin/success','登录成功')
+            await this.success('/admin/manager','登录成功')
         } else {
             // this.ctx.redirect('admin/error','验证码错误')
-            await this.error('admin/errir', '验证码错误')
+            await this.error('/admin/error', '验证码错误')
         }
 
+    }
+
+    async loginOut(){
+        this.ctx.session.userinfo = null;
+        this.ctx.redirect('/admin/login')
     }
 
 }
