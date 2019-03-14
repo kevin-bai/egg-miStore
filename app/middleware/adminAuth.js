@@ -6,7 +6,8 @@ module.exports = options => {
         ctx.locals.prevPage = ctx.request.headers['referer'] // 上一页地址
 
         if (ctx.session.userinfo) {
-            await next()
+            ctx.locals.userinfo = ctx.session.userinfo
+            await next();
         } else {
             let pathname = url.parse(ctx.request.url).pathname
 

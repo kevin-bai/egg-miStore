@@ -23,7 +23,7 @@ module.exports = appInfo => {
     // myAppName: 'egg',
   };
   config.adminAuth = {
-    match:'/admin'
+    match: '/admin'
   }
 
   config.session = {
@@ -40,11 +40,33 @@ module.exports = appInfo => {
     },
   };
 
-  // exports.mongoose = {
+  config.mongoose = {
+    client: {
+      url: 'mongodb://127.0.0.1:27017/eggxiaomi',
+      options: {
+        useNewUrlParser: true,
+      },
+    }
+  };
+
+  // config.mysql = {
+  //   // database configuration
   //   client: {
-  //     url: 'mongodb://127.0.0.1/example',
-  //     options: {},
+  //     // host
+  //     host: '111.231.94.71',
+  //     // port
+  //     port: '3306',
+  //     // username
+  //     user: 'bjw',
+  //     // password
+  //     password: 'Xiaoshu123',
+  //     // database
+  //     database: 'online-store',
   //   },
+  //   // load into app, default is open
+  //   app: true,
+  //   // load into agent, default is close
+  //   agent: false,
   // };
 
   return {
