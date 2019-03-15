@@ -46,8 +46,8 @@ class ManagerController extends BaseController {
             this.error('/admin/manager/add', '已经存在该用户')
         } else {
             newAdmin.save();
-            await this.ctx.redirect('/admin/manager')
-            console.log('添加管理员成功')
+            await this.success('/admin/manager','添加管理员成功')
+            // console.log('添加管理员成功')
         }
 
     }
@@ -85,7 +85,6 @@ class ManagerController extends BaseController {
                 role_id: content.role_id
             })
         } else {
-
             await this.ctx.model.Admin.updateOne({
                 '_id': content.id
             }, {

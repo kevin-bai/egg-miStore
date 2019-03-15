@@ -11,7 +11,7 @@ class AccessController extends BaseController {
     }
 
     async add() {
-        this.ctx.body = 'add access'
+        this.ctx.render('/admin/access/add')
     }
 
     async edit() {

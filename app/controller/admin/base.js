@@ -35,7 +35,7 @@ class BaseController extends Controller {
 
     async delete(){
         let model = this.ctx.request.query.model // role
-        let _id = this.ctx.request.query._id
+        let _id = this.ctx.request.query.id
 
         // this.ctx.model.model   ×
         await this.ctx.model[model].deleteOne({  // 注意写法
