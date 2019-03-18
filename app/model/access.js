@@ -1,7 +1,7 @@
 module.exports = app => {
     const mongoose = app.mongoose
     const Schema = mongoose.Schema
-    const d = new Date();
+    const date = new Date();
 
     const AccessSchema = new Schema({
         module_name: { // 模块名称
@@ -14,8 +14,8 @@ module.exports = app => {
             type: Number,
             default: 0
         },
-        module_id: { // ??  此module_id和当前模型的_id关联
-            type: Schema.types.Mixed // 混合类型
+        module_id: { // ??  此module_id和当前模型的_id关联  module_id= 0 表示模块
+            type: Schema.Types.Mixed // 混合类型
         },
         url: {
             type: String
