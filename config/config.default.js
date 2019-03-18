@@ -42,7 +42,8 @@ module.exports = appInfo => {
 
   config.mongoose = {
     client: {
-      url: 'mongodb://127.0.0.1:27017/eggxiaomi',
+      // url: 'mongodb://127.0.0.1:27017/eggxiaomi',
+      url: 'mongodb://111.231.94.71:27017/eggxiaomi',
       options: {
         useNewUrlParser: true,
       },

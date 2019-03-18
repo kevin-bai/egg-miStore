@@ -5,7 +5,14 @@ const BaseController = require('./base')
 class LoginController extends BaseController {
 
     async index() {
-        //await this.success('admin/login','login success')
+        // let password = await this.service.tool.md5('12345');
+        //         let user = new this.ctx.model.Admin({
+        //             username: 12345,
+        //             password: password
+        //         });
+        //         await  user.save();
+        //         console.log('user save success')
+        // await this.success('admin/login','login success')
         await this.ctx.render('admin/login')
     }
 
