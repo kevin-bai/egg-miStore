@@ -5,7 +5,7 @@ const BaseController = require('./base');
 class AccessController extends BaseController {
     async index() {
         let list = await this.ctx.model.Access.find()
-
+        console.log('access list',list)
         await this.ctx.render('/admin/access/index',{
             list
         })

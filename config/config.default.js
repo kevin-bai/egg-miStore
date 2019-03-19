@@ -25,6 +25,13 @@ module.exports = appInfo => {
   config.adminAuth = {
     match: '/admin'
   }
+  
+  config.adminAuthWhiteList = [
+    '/admin/login',
+    '/admin/doLogin',
+    '/admin/verify',
+    '/admin/manager/add'
+]
 
   config.session = {
     key: 'SESSION_ID',
