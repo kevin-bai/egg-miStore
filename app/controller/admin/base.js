@@ -46,6 +46,25 @@ class BaseController extends Controller {
         this.ctx.redirect(this.ctx.locals.prevPage)
     }
 
+    /**
+     * 判断mongo操作是否成功
+     * @param {*} result mongo操作结果
+     */
+    async mongoOperResult(result){
+        if(result.ok === 1 && result.nModified === 1){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    /**
+     * 操作失败，返回上一页面
+     */
+    async errorReturnPrev(){
+        await this.error(this.ctx.locals.prevPage,'操作失败')
+    }
+
 }
 
 module.exports = BaseController;

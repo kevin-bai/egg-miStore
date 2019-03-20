@@ -5,14 +5,6 @@ const BaseController = require('./base')
 class LoginController extends BaseController {
 
     async index() {
-        // let password = await this.service.tool.md5('12345');
-        //         let user = new this.ctx.model.Admin({
-        //             username: 12345,
-        //             password: password
-        //         });
-        //         await  user.save();
-        //         console.log('user save success')
-        // await this.success('admin/login','login success')
         await this.ctx.render('admin/login')
     }
 
@@ -27,14 +19,6 @@ class LoginController extends BaseController {
         if (code.toUpperCase() === this.ctx.session.code.toUpperCase()) {
 
             try {
-                // todo 链接mongoose 验证用户名密码
-                // let user = new this.ctx.model.Admin({
-                //     username: username,
-                //     password: password
-                // });
-                // await  user.save();
-                // console.log('user save success')
-
                 let result =await this.ctx.model.Admin.find({
                     username: username,
                     password: password

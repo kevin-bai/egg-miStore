@@ -4,9 +4,22 @@ const BaseController = require('./base');
 
 class AccessController extends BaseController {
     async index() {
-        let list = await this.ctx.model.Access.find()
-        console.log('access list',list)
-        await this.ctx.render('/admin/access/index',{
+        let list = await this.ctx.model.Access.aggregate([{
+                $match: {
+                    module_id: '0'
+                }
+            },
+            {
+                $lookup: {
+                    from: "access",
+                    localField: '_id',
+                    foreignField: 'module_id',
+                    as: 'items'
+                }
+            }
+        ])
+        console.log('access list', list)
+        await this.ctx.render('/admin/access/index', {
             list
         })
     }
@@ -39,11 +52,32 @@ class AccessController extends BaseController {
     }
 
     async edit() {
-        this.ctx.body = 'edit access'
+        const _id = this.ctx.request.query.id
+        let result = await this.ctx.model.Access.find(this.app.mongoose.Types.ObjectId(_id))
+        let moduleList = await this.ctx.model.Access.find({
+            module_id: '0'
+        })
+        //console.log('moduleList', moduleList);
+        // console.log('result', result);
+
+        await this.ctx.render('/admin/access/edit', {
+            list: result[0],
+            moduleList
+        })
     }
 
     async doEdit() {
-
+        let content = this.ctx.request.body;
+        content.id = this.app.mongoose.Types.ObjectId(content.id)
+        console.log(content)
+        let result = await this.ctx.model.Access.updateOne({
+            "_id": content.id
+        }, content)
+        if (await this.mongoOperResult(result)) {
+            await this.success('/admin/access', '修改权限成功')
+        } else {
+            await this.errorReturnPrev()
+        }
     }
 }
 
