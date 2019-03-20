@@ -69,6 +69,9 @@ class AccessController extends BaseController {
     async doEdit() {
         let content = this.ctx.request.body;
         content.id = this.app.mongoose.Types.ObjectId(content.id)
+        if (content.module_id !== '0') {
+            content.module_id = this.app.mongoose.Types.ObjectId(content.module_id)
+        }
         console.log(content)
         let result = await this.ctx.model.Access.updateOne({
             "_id": content.id
