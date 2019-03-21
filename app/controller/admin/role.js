@@ -88,13 +88,16 @@ class RoleController extends BaseController {
                 }
             }
         ])
-        let roleAccess = await this.ctx.model.RoleAccess.find({"role_id":role_id})
+        let roleAccess = await this.ctx.model.RoleAccess.find({
+            "role_id": role_id
+        })
         let roleAccessArr = []
-        roleAccess.forEach(item =>{
+        roleAccess.forEach(item => {
             roleAccessArr.push(item.access_id.toString())
         })
-        console.log(roleAccessArr)
-        // 全部表匹配role_access表，找出role有的权限
+        // console.log(roleAccessArr)
+
+        // 全部表匹配role_access表，id匹配表示 角色有此权限
         for (let i = 0; i < list.length; i++) {
             if (roleAccessArr.indexOf(list[i]._id.toString()) != -1) {
                 list[i].checked = 1
@@ -114,12 +117,14 @@ class RoleController extends BaseController {
         })
     }
 
-    async doAuth(){
+    async doAuth() {
         let content = await this.ctx.request.body;
         let role_id = content.role_id
         let access_ids = content.access_node
-        console.log('access',access_ids)
-        await this.ctx.model.RoleAccess.deleteMany({role_id:role_id})
+        console.log('access', access_ids)
+        await this.ctx.model.RoleAccess.deleteMany({
+            role_id: role_id
+        })
 
         access_ids.forEach(access_id => {
             let role_access = new this.ctx.model.RoleAccess({
@@ -129,7 +134,7 @@ class RoleController extends BaseController {
             role_access.save()
         });
 
-        await this.success(`/admin/role/auth?id=${role_id}`,`角色授权成功`)
+        await this.success(`/admin/role/auth?id=${role_id}`, `角色授权成功`)
     }
 }
 

@@ -30,7 +30,8 @@ module.exports = appInfo => {
     '/admin/login',
     '/admin/doLogin',
     '/admin/verify',
-    '/admin/manager/add'
+    '/admin/manager/add',
+    '/admin/manager/doAdd'
 ]
 
   config.session = {
