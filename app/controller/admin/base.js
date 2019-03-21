@@ -33,12 +33,12 @@ class BaseController extends Controller {
         this.ctx.body = captcha.data
     }
 
-    async delete(){
+    async delete() {
         let model = this.ctx.request.query.model // role
         let _id = this.ctx.request.query.id
 
         // this.ctx.model.model   ×
-        await this.ctx.model[model].deleteOne({  // 注意写法
+        await this.ctx.model[model].deleteOne({ // 注意写法
             _id
         })
 
@@ -50,10 +50,10 @@ class BaseController extends Controller {
      * 判断mongo操作是否成功
      * @param {*} result mongo操作结果
      */
-    async mongoOperResult(result){
-        if(result.ok === 1 && result.nModified === 1){
+    async mongoOperResult(result) {
+        if (result.ok === 1 && result.nModified === 1) {
             return true
-        }else{
+        } else {
             return false
         }
     }
@@ -61,8 +61,108 @@ class BaseController extends Controller {
     /**
      * 操作失败，返回上一页面
      */
-    async errorReturnPrevPage(){
-        await this.error(this.ctx.locals.prevPage,'操作失败')
+    async errorReturnPrevPage() {
+        await this.error(this.ctx.locals.prevPage, '操作失败')
+    }
+
+
+    //改变状态的方法  Api接口
+    async changeStatus() {
+        var model = this.ctx.request.query.model; /*数据库表 Model*/
+        var attr = this.ctx.request.query.attr; /*更新的属性 如:status is_best */
+        var id = this.ctx.request.query.id; /*更新的 id*/
+
+        var result = await this.ctx.model[model].find({
+            "_id": id
+        });
+
+        if (result.length > 0) {
+            if (result[0][attr] == 1) {
+                var json = {
+                    /*es6 属性名表达式*/
+                    [attr]: 0
+                }
+            } else {
+                var json = {
+                    [attr]: 1
+                }
+            }
+
+            //执行更新操作
+            var updateResult = await this.ctx.model[model].updateOne({
+                "_id": id
+            }, json);
+
+            if (updateResult) {
+                this.ctx.body = {
+                    "message": '更新成功',
+                    "success": true
+                };
+            } else {
+                this.ctx.body = {
+                    "message": '更新失败',
+                    "success": false
+                };
+            }
+        } else {
+            //接口
+            this.ctx.body = {
+                "message": '更新失败,参数错误',
+                "success": false
+            };
+        }
+    }
+
+
+    //改变数量的方法
+    async editNum() {
+        var model = this.ctx.request.query.model; /*数据库表 Model*/
+        var attr = this.ctx.request.query.attr; /*更新的属性 如:sort */
+        var id = this.ctx.request.query.id; /*更新的 id*/
+        var num = this.ctx.request.query.num; /*数量*/
+
+        var result = await this.ctx.model[model].find({
+            "_id": id
+        });
+
+        if (result.length > 0) {
+
+            var json = {
+                /*es6 属性名表达式*/
+
+                [attr]: num
+            }
+
+            //执行更新操作
+            var updateResult = await this.ctx.model[model].updateOne({
+                "_id": id
+            }, json);
+
+            if (updateResult) {
+                this.ctx.body = {
+                    "message": '更新成功',
+                    "success": true
+                };
+            } else {
+
+                this.ctx.body = {
+                    "message": '更新失败',
+                    "success": false
+                };
+            }
+
+        } else {
+
+            //接口
+            this.ctx.body = {
+                "message": '更新失败,参数错误',
+                "success": false
+            };
+
+
+        }
+
+
     }
 
 }
