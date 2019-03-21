@@ -88,12 +88,48 @@ class RoleController extends BaseController {
                 }
             }
         ])
+        let roleAccess = await this.ctx.model.RoleAccess.find({"role_id":role_id})
+        let roleAccessArr = []
+        roleAccess.forEach(item =>{
+            roleAccessArr.push(item.access_id.toString())
+        })
+        console.log(roleAccessArr)
+        // 全部表匹配role_access表，找出role有的权限
+        for (let i = 0; i < list.length; i++) {
+            if (roleAccessArr.indexOf(list[i]._id.toString()) != -1) {
+                list[i].checked = 1
+            }
+            for (let j = 0; j < list[i].items.length; j++) {
+                if (roleAccessArr.indexOf(list[i].items[j]._id.toString()) != -1) {
+                    list[i].items[j].checked = 1
+                }
+            }
+        }
+
         console.log('list', list)
 
         await this.ctx.render('/admin/access/auth', {
             list,
             role_id
         })
+    }
+
+    async doAuth(){
+        let content = await this.ctx.request.body;
+        let role_id = content.role_id
+        let access_ids = content.access_node
+        console.log('access',access_ids)
+        await this.ctx.model.RoleAccess.deleteMany({role_id:role_id})
+
+        access_ids.forEach(access_id => {
+            let role_access = new this.ctx.model.RoleAccess({
+                role_id,
+                access_id
+            })
+            role_access.save()
+        });
+
+        await this.success(`/admin/role/auth?id=${role_id}`,`角色授权成功`)
     }
 }
 
