@@ -61,7 +61,7 @@ class BaseController extends Controller {
     /**
      * 操作失败，返回上一页面
      */
-    async errorReturnPrev(){
+    async errorReturnPrevPage(){
         await this.error(this.ctx.locals.prevPage,'操作失败')
     }
 

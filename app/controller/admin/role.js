@@ -64,13 +64,36 @@ class RoleController extends BaseController {
             title,
             description
         })
-        console.log('result',result)
-        if(result.nModified){
+        console.log('result', result)
+        if (await this.mongoOperResult(result)) {
             await this.success('/admin/role', '编辑角色成功')
-        }else{
-            await this.success('/admin/role', '编辑角色失败')
+        } else {
+            await this.errorReturnPrevPage()
         }
-        
+    }
+
+    async auth() {
+        let role_id = await this.ctx.request.query.id
+        let list = await this.ctx.model.Access.aggregate([{
+                $match: {
+                    module_id: '0'
+                }
+            },
+            {
+                $lookup: {
+                    from: "access",
+                    localField: '_id',
+                    foreignField: 'module_id',
+                    as: 'items'
+                }
+            }
+        ])
+        console.log('list', list)
+
+        await this.ctx.render('/admin/access/auth', {
+            list,
+            role_id
+        })
     }
 }
 

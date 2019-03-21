@@ -67,19 +67,24 @@ class AccessController extends BaseController {
     }
 
     async doEdit() {
-        let content = this.ctx.request.body;
-        content.id = this.app.mongoose.Types.ObjectId(content.id)
-        if (content.module_id !== '0') {
-            content.module_id = this.app.mongoose.Types.ObjectId(content.module_id)
-        }
-        console.log(content)
-        let result = await this.ctx.model.Access.updateOne({
-            "_id": content.id
-        }, content)
-        if (await this.mongoOperResult(result)) {
-            await this.success('/admin/access', '修改权限成功')
-        } else {
-            await this.errorReturnPrev()
+
+        try {
+            let content = this.ctx.request.body;
+            // content.id = this.app.mongoose.Types.ObjectId(content.id)
+            if (content.module_id !== '0') {
+                content.module_id = this.app.mongoose.Types.ObjectId(content.module_id)
+            }
+            console.log(content)
+            let result = await this.ctx.model.Access.updateOne({
+                "_id": content.id
+            }, content) // 坑点：不要写成{content}
+            if (await this.mongoOperResult(result)) {
+                await this.success('/admin/access', '修改权限成功')
+            } else {
+                await this.errorReturnPrevPage()
+            }
+        } catch (error) {
+            console.error(error)
         }
     }
 }
