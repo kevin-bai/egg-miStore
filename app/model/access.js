@@ -14,7 +14,7 @@ module.exports = app => {
             type: Number,
             default: 0
         },
-        module_id: { // ??  此module_id和当前模型的_id关联  module_id= 0 表示模块
+        module_id: { //  此module_id和当前模型的_id关联  module_id= 0 表示模块   ---通过这个字段来自关联
             type: Schema.Types.Mixed // 混合类型
         },
         url: {

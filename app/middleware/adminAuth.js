@@ -19,6 +19,11 @@ module.exports = options => {
                     message: '没有操作权限'
                 });
             }else{
+                ctx.locals.asliderList = await ctx.service.adminService.getAuthList(ctx.locals.userinfo.role_id)
+
+                // todo 根据权限显示隐藏侧边栏
+
+
                 await next();
             }
             
