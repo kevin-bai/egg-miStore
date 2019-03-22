@@ -39,7 +39,7 @@ module.exports = app => {
 
   router.get('/admin/file', controller.admin.file.index);
   router.get('/admin/file/add', controller.admin.file.add);
-  router.get('/admin/file/doAdd', controller.admin.file.doAdd);
-  router.get('/admin/file/edit', controller.admin.file.edit);
+  router.post('/admin/file/doAdd', controller.admin.file.doAdd);
+  // router.get('/admin/file/edit', controller.admin.file.edit);
 
 };
