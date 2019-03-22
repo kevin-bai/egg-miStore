@@ -12,7 +12,7 @@ class FileController extends BaseController {
     }
 
     async add() {
-       await this.ctx.render('/admin/file/add')
+        await this.ctx.render('/admin/file/add')
     }
 
     async doAdd() {
@@ -20,24 +20,31 @@ class FileController extends BaseController {
             autoFields: true
         }) // autoFields 可以获取除了除了文件的其他字段，提取到parts的fields里面；
         let part; // stream流
-        const files = [];
+        let files = {};
         while ((part = await parts()) != null) {
-            let filename = part.filename
-            let des = 'app/public/admin/upload' + path.basename(part.filename)
-            const writeStream = fs.createWriteStream(des)
+            if (!part.filename) {
+                break;
+            }
+
+            let fieldname = part.fieldname // file 的input标签，name
+            let des = await this.service.tool.getUploadFile(part.filename)
+            const writeStream = fs.createWriteStream(des.uploadPath)
 
             await pump(part, writeStream) // 写入然后销毁当前流，如果出错会有error的处理。如果用传统的pipe，报错的话，浏览器会卡死
 
-            files.push({
-                [filename]:des
+            files = Object.assign(files, {
+                [fieldname]: des.savePath
             })
         }
-        console.log('filename',files)
-        this.ctx.response.body = {
-            files,
-            fields: parts.field
-        }
+        console.log('filename', files)
+        // this.ctx.response.body = {
+        //     files,
+        //     fields: parts.field
+        // }
 
+        let file = new this.ctx.model.File(Object.assign(files, parts.field))
+        file.save()
+        await this.success('/admin/file','添加轮播图成功')
     }
 }
 

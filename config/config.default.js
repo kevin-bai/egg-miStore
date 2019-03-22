@@ -34,6 +34,8 @@ module.exports = appInfo => {
     '/admin/manager/doAdd'
 ]
 
+  config.uploadDir = 'app/public/admin/upload/'
+
   config.session = {
     key: 'SESSION_ID',
     maxAge: 10864000,
