@@ -20,6 +20,7 @@ module.exports = app => {
   router.get('/admin', controller.admin.main.index);
   router.get('/admin/main/welcome', controller.admin.main.welcome);
   router.get('/admin/main/index', controller.admin.main.index);
+  router.get('/admin/main', controller.admin.main.index);
 
   router.get('/admin/manager', controller.admin.manager.index);
   router.get('/admin/manager/add', controller.admin.manager.add);
