@@ -29,7 +29,7 @@ class LoginController extends BaseController {
 
                     this.ctx.session.userinfo = result[0]
                     // await this.success('/admin/manager','登录成功')
-                    await this.ctx.redirect('/admin/manager')
+                    await this.ctx.redirect('/admin')
                 }else{
                     await this.error('/admin/login','用户名密码错误')
                 }
