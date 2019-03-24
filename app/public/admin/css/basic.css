@@ -69,12 +69,20 @@ input[type=file]{
  	display: inline !important;
 
 }
+.pic{
+    max-width: 100px;
+}
 
 
 .col-sm-2,.col-sm-10{
 	padding-left: 0px;
 }
-
+.input-form li{
+    margin: 6px 0px;
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    color: #666;
+}
 
 .navbar{
 	border-radius: 0px;

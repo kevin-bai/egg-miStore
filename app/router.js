@@ -15,7 +15,11 @@ module.exports = app => {
   router.get('/admin/delete', controller.admin.base.delete);
   router.get('/admin/changeStatus', controller.admin.base.changeStatus);
   router.get('/admin/editNum', controller.admin.base.editNum);
-
+ 
+  
+  router.get('/admin', controller.admin.main.index);
+  router.get('/admin/main/welcome', controller.admin.main.welcome);
+  router.get('/admin/main/index', controller.admin.main.index);
 
   router.get('/admin/manager', controller.admin.manager.index);
   router.get('/admin/manager/add', controller.admin.manager.add);

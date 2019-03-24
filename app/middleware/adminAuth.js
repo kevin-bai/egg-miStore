@@ -11,7 +11,7 @@ module.exports = options => {
         if (ctx.session.userinfo) {
             ctx.locals.userinfo = ctx.session.userinfo
             let hasAuth = await ctx.service.adminService.checkAuth();
-            console.log('hasAuth',hasAuth)
+            // console.log('hasAuth',hasAuth)
             if(!hasAuth){
                 // ctx.redirect(ctx.locals.prevPage, '没有操作权限')
                 await ctx.render('/admin/public/error', {
