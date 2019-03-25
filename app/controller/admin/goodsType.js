@@ -39,7 +39,7 @@ class GoodsTypeController extends BaseController {
             title,
             description
         })
-        console.log(result)
+        // console.log(result)
         await this.mongoOperResult(result,'/admin/goodsType', '修改商品类型成功')
         //await this.success('/admin/goodsType', '修改商品类型成功')
     }

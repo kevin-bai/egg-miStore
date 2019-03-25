@@ -4,7 +4,10 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const { router, controller } = app;
+  const {
+    router,
+    controller
+  } = app;
   router.get('/', controller.home.index);
 
   // 公共路由
@@ -15,8 +18,8 @@ module.exports = app => {
   router.get('/admin/delete', controller.admin.base.delete);
   router.get('/admin/changeStatus', controller.admin.base.changeStatus);
   router.get('/admin/editNum', controller.admin.base.editNum);
- 
-  
+
+
   router.get('/admin', controller.admin.main.index);
   router.get('/admin/main/welcome', controller.admin.main.welcome);
   router.get('/admin/main/index', controller.admin.main.index);
@@ -28,6 +31,7 @@ module.exports = app => {
   router.post('/admin/manager/doAdd', controller.admin.manager.doAdd);
   router.post('/admin/manager/doEdit', controller.admin.manager.doEdit);
 
+  //角色管理
   router.get('/admin/role', controller.admin.role.index);
   router.get('/admin/role/add', controller.admin.role.add);
   router.get('/admin/role/edit', controller.admin.role.edit);
@@ -36,12 +40,14 @@ module.exports = app => {
   router.post('/admin/role/doAuth', controller.admin.role.doAuth);
   router.post('/admin/role/doEdit', controller.admin.role.doEdit);
 
+  //权限管理
   router.get('/admin/access', controller.admin.access.index);
   router.get('/admin/access/add', controller.admin.access.add);
   router.get('/admin/access/edit', controller.admin.access.edit);
   router.post('/admin/access/doAdd', controller.admin.access.doAdd);
   router.post('/admin/access/doEdit', controller.admin.access.doEdit);
 
+  //轮播图管理
   router.get('/admin/file', controller.admin.file.index);
   router.get('/admin/file/add', controller.admin.file.add);
   router.post('/admin/file/doAdd', controller.admin.file.doAdd);
@@ -55,5 +61,13 @@ module.exports = app => {
   router.get('/admin/goodsType/edit', controller.admin.goodsType.edit);
   router.post('/admin/goodsType/doAdd', controller.admin.goodsType.doAdd);
   router.post('/admin/goodsType/doEdit', controller.admin.goodsType.doEdit);
+
+
+  //商品类型属性
+  router.get('/admin/goodsTypeAttribute', controller.admin.goodsTypeAttribute.index);
+  router.get('/admin/goodsTypeAttribute/add', controller.admin.goodsTypeAttribute.add);
+  router.get('/admin/goodsTypeAttribute/edit', controller.admin.goodsTypeAttribute.edit);
+  router.post('/admin/goodsTypeAttribute/doEdit', controller.admin.goodsTypeAttribute.doEdit);
+  router.post('/admin/goodsTypeAttribute/doAdd', controller.admin.goodsTypeAttribute.doAdd);
 
 };
