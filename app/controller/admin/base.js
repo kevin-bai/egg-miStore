@@ -50,11 +50,11 @@ class BaseController extends Controller {
      * 判断mongo操作是否成功
      * @param {*} result mongo操作结果
      */
-    async mongoOperResult(result) {
+    async mongoOperResult(result,url,msg) {
         if (result.ok === 1 && result.nModified === 1) {
-            return true
+            await this.success(url, msg)
         } else {
-            return false
+            await this.errorReturnPrevPage()
         }
     }
 

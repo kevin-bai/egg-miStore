@@ -78,11 +78,7 @@ class AccessController extends BaseController {
             let result = await this.ctx.model.Access.updateOne({
                 "_id": content.id
             }, content) // 坑点：不要写成{content}
-            if (await this.mongoOperResult(result)) {
-                await this.success('/admin/access', '修改权限成功')
-            } else {
-                await this.errorReturnPrevPage()
-            }
+            await this.mongoOperResult(result,'/admin/access', '修改权限成功')
         } catch (error) {
             console.error(error)
         }
