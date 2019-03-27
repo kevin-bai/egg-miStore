@@ -1,4 +1,6 @@
 'use strict';
+const fs =require('fs');
+const pump = require('mz-modules/pump');
 
 var BaseController = require('./base.js');
 
@@ -49,6 +51,75 @@ class GoodsController extends BaseController {
     }
 
   }
+
+  //上传商品详情的图片
+  async goodsUploadImage() {
+    let parts = this.ctx.multipart({
+      autoFields: true
+    });
+    let files = {};
+    let stream;
+    while ((stream = await parts()) != null) {
+      if (!stream.filename) {
+        break;
+      }
+      let fieldname = stream.fieldname; //file表单的名字
+
+      //上传图片的目录
+      let dir = await this.service.tool.getUploadFile(stream.filename);
+      let target = dir.uploadPath;
+      let writeStream = fs.createWriteStream(target);
+
+      await pump(stream, writeStream);
+
+      files = Object.assign(files, {
+        [fieldname]: dir.savePath
+      })
+    }
+
+    //图片的地址转化成 {link: 'path/to/image.jpg'} 
+
+    this.ctx.response.body = {
+      link: files.file
+    };
+  }
+
+
+  //上传相册的图片
+  async goodsUploadPhoto() {
+    let parts = this.ctx.multipart({
+      autoFields: true
+    });
+    let files = {};
+    let stream;
+    while ((stream = await parts()) != null) {
+      if (!stream.filename) {
+        break;
+      }
+      let fieldname = stream.fieldname; //file表单的名字
+
+      //上传图片的目录
+      let dir = await this.service.tool.getUploadFile(stream.filename);
+      let target = dir.uploadPath;
+      let writeStream = fs.createWriteStream(target);
+
+      await pump(stream, writeStream);
+
+      files = Object.assign(files, {
+        [fieldname]: dir.savePath
+      })
+
+      //生成缩略图
+      this.service.tool.jimpImg(target);
+      //图片的地址转化成 {link: 'path/to/image.jpg'} 
+    }
+
+    this.ctx.body = {
+      link: files.file
+    };
+  }
+
+
 
 
 }
