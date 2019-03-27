@@ -50,6 +50,11 @@ module.exports = appInfo => {
     },
   };
 
+    //配置表单数量
+    config.multipart = {
+      fields: '50'
+   };
+
   config.mongoose = {
     client: {
       // url: 'mongodb://127.0.0.1:27017/eggxiaomi',

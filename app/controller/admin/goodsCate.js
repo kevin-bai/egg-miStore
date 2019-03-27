@@ -84,7 +84,7 @@ class GoodsCateController extends BaseController {
     ])
 
 
-    console.log(JSON.stringify(result));
+    // console.log(JSON.stringify(result));
 
 
     await this.ctx.render('admin/goodsCate/index', {
@@ -199,10 +199,8 @@ class GoodsCateController extends BaseController {
         [fieldname]: dir.savePath
       })
 
-
       //生成缩略图
       this.service.tool.jimpImg(target);
-
     }
 
 
