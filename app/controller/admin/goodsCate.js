@@ -29,13 +29,13 @@ id    name              pid
 	1、安装  cnpm install --save jimp
 
 
-	2、引入：var Jimp = require("jimp");
+	2、引入：let Jimp = require("jimp");
 
 
     3、使用
     
 
-    var Jimp = require('jimp');
+    let Jimp = require('jimp');
     
 
 
@@ -56,16 +56,16 @@ const fs = require('fs');
 
 const pump = require('mz-modules/pump');
 
-var BaseController = require('./base.js');
+let BaseController = require('./base.js');
 class GoodsCateController extends BaseController {
   async index() {
 
 
-    // var result=await this.ctx.model.GoodsCate.find({});
+    // let result=await this.ctx.model.GoodsCate.find({});
     // // console.log(result);
 
 
-    var result = await this.ctx.model.GoodsCate.aggregate([
+    let result = await this.ctx.model.GoodsCate.aggregate([
 
       {
         $lookup: {
@@ -96,7 +96,7 @@ class GoodsCateController extends BaseController {
   async add() {
 
 
-    var result = await this.ctx.model.GoodsCate.find({
+    let result = await this.ctx.model.GoodsCate.find({
       "pid": '0'
     });
 
@@ -156,13 +156,13 @@ class GoodsCateController extends BaseController {
   async edit() {
 
 
-    var id = this.ctx.request.query.id;
+    let id = this.ctx.request.query.id;
 
-    var result = await this.ctx.model.GoodsCate.find({
+    let result = await this.ctx.model.GoodsCate.find({
       "_id": id
     });
 
-    var cateList = await this.ctx.model.GoodsCate.find({
+    let cateList = await this.ctx.model.GoodsCate.find({
       "pid": '0'
     });
 
@@ -209,8 +209,8 @@ class GoodsCateController extends BaseController {
 
     }
 
-    var id = parts.field.id;
-    var updateResult = Object.assign(files, parts.field);
+    let id = parts.field.id;
+    let updateResult = Object.assign(files, parts.field);
     await this.ctx.model.GoodsCate.updateOne({
       "_id": id
     }, updateResult);

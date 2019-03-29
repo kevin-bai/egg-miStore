@@ -2,7 +2,7 @@
 const fs =require('fs');
 const pump = require('mz-modules/pump');
 
-var BaseController = require('./base.js');
+let BaseController = require('./base.js');
 
 class GoodsController extends BaseController {
   async index() {
@@ -12,13 +12,31 @@ class GoodsController extends BaseController {
   async add() {
 
     //获取所有的颜色值
-    var colorResult = await this.ctx.model.GoodsColor.find({});
+    let colorResult = await this.ctx.model.GoodsColor.find({});
 
     //获取所有的商品类型
-    var goodsType = await this.ctx.model.GoodsType.find({});
+    let goodsType = await this.ctx.model.GoodsType.find({});
+
+    let goodsCate = await this.ctx.model.GoodsCate.aggregate([
+      {
+        $lookup:{
+          from:'goods_cate',
+          localField:'_id',
+          foreignField:'pid',
+          as:'items'
+        }
+      },
+      {
+        $match:{
+          "pid":'0'
+        }
+      }
+    ])
+    console.log('goodsCate',goodsCate)
+
 
     await this.ctx.render('admin/goods/add', {
-
+      goodsCate,
       colorResult: colorResult,
       goodsType: goodsType
     });
@@ -37,10 +55,10 @@ class GoodsController extends BaseController {
   async goodsTypeAttribute() {
 
 
-    var cate_id = this.ctx.request.query.cate_id;
+    let cate_id = this.ctx.request.query.cate_id;
 
     //注意 await
-    var goodsTypeAttribute = await this.ctx.model.GoodsTypeAttribute.find({
+    let goodsTypeAttribute = await this.ctx.model.GoodsTypeAttribute.find({
       "cate_id": cate_id
     })
 
