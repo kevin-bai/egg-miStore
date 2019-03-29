@@ -5,6 +5,7 @@ const path = require('path')
 const mkdirp = require('mz-modules').mkdirp
 const sd = require('silly-datetime')
 const Jimp = require("jimp"); //生成缩略图的模块
+const fs = require('fs');
 
 const Service = require('egg').Service;
 
@@ -79,7 +80,40 @@ class ToolService extends Service {
     });
   }
 
+  /**
+   * 
+   * @param {*} parts   let parts = this.ctx.multipart({autoFields: true});
+   * @returns files 
+   */
+  async getUploadFile(ctx, isJump){
 
+    let parts = this.ctx.multipart({autoFields: true});
+    let files = {};
+    let stream;
+    while ((stream = await parts()) != null) {
+      if (!stream.filename) {
+        break;
+      }
+      let fieldname = stream.fieldname; //file表单的名字
+
+      //上传图片的目录
+      let dir = await this.service.tool.getUploadFile(stream.filename);
+      let target = dir.uploadPath;
+      let writeStream = fs.createWriteStream(target);
+
+      await pump(stream, writeStream);
+
+      files = Object.assign(files, {
+        [fieldname]: dir.savePath
+      })
+
+      if(isJump){
+        this.service.tool.jimpImg(target);
+      }
+    }
+
+      return files
+  }
 
 
 }

@@ -28,7 +28,7 @@
 
     <div class="panel-body">
         <div class="table-responsive input-form">
-            <form action="/admin/goods/doAdd" method="post" class="goods_content">
+            <form action="/admin/goods/doAdd?_csrf=<%=csrf%>" method="post" class="goods_content">
 
 
                 <!-- Nav tabs -->
@@ -64,8 +64,8 @@
 
                             </li>
                             <li> <span> 商品图片:</span> <input type="file" name="pic" /></li>
-                            <li> <span>商品价格:</span> <input type="text" name="price" /></li>
-                            <li> <span>商品原价:</span> <input type="text" name="old_price" /></li>
+                            <li> <span>商品价格:</span> <input type="text" name="shop_price" /></li>
+                            <li> <span>商品原价:</span> <input type="text" name="market_price" /></li>
 
                             <li> <span>商品状态:</span>　<input type="radio" value="1" name="status" checked /> 显示 　
                                 <input type="radio" value="0" name="status" /> 隐藏
@@ -80,7 +80,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="detail">
 
-                        <textarea name="content" id="content" cols="100" rows="8"></textarea>
+                        <textarea name="goods_content" id="content" cols="100" rows="8"></textarea>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="mix">
 
@@ -89,7 +89,7 @@
                             <li> <span>商品颜色:</span>
 
                                 <%for(var i=0;i<colorResult.length;i++){%>
-                                <input type="checkbox" name="colors[]" value="<%=colorResult[i]._id%>"
+                                <input type="checkbox" name="goods_color[]" value="<%=colorResult[i]._id%>"
                                     id="color_<%=colorResult[i]._id%>" /> <label
                                     for="color_<%=colorResult[i]._id%>"><%=colorResult[i].color_name%></label>
                                 <%}%>
@@ -161,10 +161,7 @@
 
                             <div id="photoLib"  class="photoLib"></div>
 
-
                             <div id="photoList">
-
-
                             </div>
                         </div>
                     </div>

@@ -2,7 +2,7 @@
 const fs =require('fs');
 const pump = require('mz-modules/pump');
 
-let BaseController = require('./base.js');
+const BaseController = require('./base.js');
 
 class GoodsController extends BaseController {
   async index() {
@@ -45,9 +45,7 @@ class GoodsController extends BaseController {
 
   async doAdd() {
 
-
     console.log(this.ctx.request.body);
-
   }
 
 
@@ -62,7 +60,7 @@ class GoodsController extends BaseController {
       "cate_id": cate_id
     })
 
-    console.log(goodsTypeAttribute);
+    // console.log(goodsTypeAttribute);
 
     this.ctx.body = {
       result: goodsTypeAttribute
@@ -72,28 +70,33 @@ class GoodsController extends BaseController {
 
   //上传商品详情的图片
   async goodsUploadImage() {
-    let parts = this.ctx.multipart({
-      autoFields: true
-    });
-    let files = {};
-    let stream;
-    while ((stream = await parts()) != null) {
-      if (!stream.filename) {
-        break;
-      }
-      let fieldname = stream.fieldname; //file表单的名字
+    // let parts = this.ctx.multipart({
+    //   autoFields: true
+    // });
 
-      //上传图片的目录
-      let dir = await this.service.tool.getUploadFile(stream.filename);
-      let target = dir.uploadPath;
-      let writeStream = fs.createWriteStream(target);
+    let files = await this.service.tool.getUploadFile()
+    console.log('files',files)
 
-      await pump(stream, writeStream);
 
-      files = Object.assign(files, {
-        [fieldname]: dir.savePath
-      })
-    }
+    // let files = {};
+    // let stream;
+    // while ((stream = await parts()) != null) {
+    //   if (!stream.filename) {
+    //     break;
+    //   }
+    //   let fieldname = stream.fieldname; //file表单的名字
+
+    //   //上传图片的目录
+    //   let dir = await this.service.tool.getUploadFile(stream.filename);
+    //   let target = dir.uploadPath;
+    //   let writeStream = fs.createWriteStream(target);
+
+    //   await pump(stream, writeStream);
+
+    //   files = Object.assign(files, {
+    //     [fieldname]: dir.savePath
+    //   })
+    // }
 
     //图片的地址转化成 {link: 'path/to/image.jpg'} 
 
