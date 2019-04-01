@@ -70,38 +70,14 @@ class GoodsController extends BaseController {
 
   //上传商品详情的图片
   async goodsUploadImage() {
-    // let parts = this.ctx.multipart({
-    //   autoFields: true
-    // });
-
-    let files = await this.service.tool.getUploadFile()
-    console.log('files',files)
-
-
-    // let files = {};
-    // let stream;
-    // while ((stream = await parts()) != null) {
-    //   if (!stream.filename) {
-    //     break;
-    //   }
-    //   let fieldname = stream.fieldname; //file表单的名字
-
-    //   //上传图片的目录
-    //   let dir = await this.service.tool.getUploadFile(stream.filename);
-    //   let target = dir.uploadPath;
-    //   let writeStream = fs.createWriteStream(target);
-
-    //   await pump(stream, writeStream);
-
-    //   files = Object.assign(files, {
-    //     [fieldname]: dir.savePath
-    //   })
-    // }
+    
+    let result = await this.service.tool.getUploadFile(this.ctx)
+    // console.log('files',result)
 
     //图片的地址转化成 {link: 'path/to/image.jpg'} 
 
     this.ctx.response.body = {
-      link: files.file
+      link: result.files.file
     };
   }
 
@@ -120,7 +96,7 @@ class GoodsController extends BaseController {
       let fieldname = stream.fieldname; //file表单的名字
 
       //上传图片的目录
-      let dir = await this.service.tool.getUploadFile(stream.filename);
+      let dir = await this.service.tool.getUploadFilePath(stream.filename);
       let target = dir.uploadPath;
       let writeStream = fs.createWriteStream(target);
 

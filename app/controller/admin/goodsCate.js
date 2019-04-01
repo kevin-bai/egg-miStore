@@ -109,43 +109,13 @@ class GoodsCateController extends BaseController {
   }
 
   async doAdd() {
+    let result = await this.service.tool.getUploadFile(this.ctx,true)
 
-    let parts = this.ctx.multipart({
-      autoFields: true
-    });
-    let files = {};
-    let stream;
-    while ((stream = await parts()) != null) {
-      if (!stream.filename) {
-        break;
-      }
-      let fieldname = stream.fieldname; //file表单的名字
-
-      //上传图片的目录
-      let dir = await this.service.tool.getUploadFile(stream.filename);
-      let target = dir.uploadPath;
-      let writeStream = fs.createWriteStream(target);
-
-      await pump(stream, writeStream);
-
-      files = Object.assign(files, {
-        [fieldname]: dir.savePath
-      })
-
-
-      //生成缩略图
-      this.service.tool.jimpImg(target);
-
-
+    if (result.field.pid != 0) {
+      result.field.pid = this.app.mongoose.Types.ObjectId(result.field.pid); //调用mongoose里面的方法把字符串转换成ObjectId      
     }
 
-
-    if (parts.field.pid != 0) {
-      parts.field.pid = this.app.mongoose.Types.ObjectId(parts.field.pid); //调用mongoose里面的方法把字符串转换成ObjectId      
-
-    }
-
-    let goodsCate = new this.ctx.model.GoodsCate(Object.assign(files, parts.field));
+    let goodsCate = new this.ctx.model.GoodsCate(Object.assign(result.files,result.field));
     await goodsCate.save();
 
     await this.success('/admin/goodsCate', '增加分类成功');
@@ -189,7 +159,7 @@ class GoodsCateController extends BaseController {
       let fieldname = stream.fieldname; //file表单的名字
 
       //上传图片的目录
-      let dir = await this.service.tool.getUploadFile(stream.filename);
+      let dir = await this.service.tool.getUploadFilePath(stream.filename);
       let target = dir.uploadPath;
       let writeStream = fs.createWriteStream(target);
 

@@ -32,7 +32,7 @@ class FileController extends BaseController {
             }
 
             let fieldname = part.fieldname // file 的input标签，name
-            let des = await this.service.tool.getUploadFile(part.filename)
+            let des = await this.service.tool.getUploadFilePath(part.filename)
             const writeStream = fs.createWriteStream(des.uploadPath)
 
             await pump(part, writeStream) // 写入然后销毁当前流，如果出错会有error的处理。如果用传统的pipe，报错的话，浏览器会卡死
@@ -79,7 +79,7 @@ class FileController extends BaseController {
             }
 
             let fieldname = part.fieldname // file 的input标签，name
-            let des = await this.service.tool.getUploadFile(part.filename)
+            let des = await this.service.tool.getUploadFilePath(part.filename)
             const writeStream = fs.createWriteStream(des.uploadPath)
 
             await pump(part, writeStream) // 写入然后销毁当前流，如果出错会有error的处理。如果用传统的pipe，报错的话，浏览器会卡死
