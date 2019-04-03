@@ -2,7 +2,7 @@ module.exports = app => {
     const mongoose = app.mongoose;
     const Schema = mongoose.Schema;
 
-    var d=new Date();   
+    let d=new Date();   
     const GoodsCateSchema = new Schema({
       title: { type: String  },
       cate_img: { type: String  },     

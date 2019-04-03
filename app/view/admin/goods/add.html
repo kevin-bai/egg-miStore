@@ -28,7 +28,7 @@
 
     <div class="panel-body">
         <div class="table-responsive input-form">
-            <form action="/admin/goods/doAdd?_csrf=<%=csrf%>" method="post" class="goods_content">
+            <form action="/admin/goods/doAdd?_csrf=<%=csrf%>" method="post" class="goods_content" enctype="multipart/form-data">
 
 
                 <!-- Nav tabs -->
@@ -89,7 +89,7 @@
                             <li> <span>商品颜色:</span>
 
                                 <%for(var i=0;i<colorResult.length;i++){%>
-                                <input type="checkbox" name="goods_color[]" value="<%=colorResult[i]._id%>"
+                                <input type="checkbox" name="goods_color" value="<%=colorResult[i]._id%>"
                                     id="color_<%=colorResult[i]._id%>" /> <label
                                     for="color_<%=colorResult[i]._id%>"><%=colorResult[i].color_name%></label>
                                 <%}%>
@@ -290,7 +290,7 @@
                 url: '/admin/goods/goodsUploadPhoto',
                 success: function (response) {
                     // console.info( data );
-                    photoStr = '<input type="hidden" name="goods_image_list[]" value=' +
+                    photoStr = '<input type="hidden" name="goods_image_list" value=' +
                         response.link + ' />';
 
                     $('#photoList').append(photoStr);

@@ -1,7 +1,4 @@
 'use strict';
-const fs =require('fs');
-const pump = require('mz-modules/pump');
-
 const BaseController = require('./base.js');
 
 class GoodsController extends BaseController {
@@ -17,22 +14,20 @@ class GoodsController extends BaseController {
     //获取所有的商品类型
     let goodsType = await this.ctx.model.GoodsType.find({});
 
-    let goodsCate = await this.ctx.model.GoodsCate.aggregate([
-      {
-        $lookup:{
-          from:'goods_cate',
-          localField:'_id',
-          foreignField:'pid',
-          as:'items'
+    let goodsCate = await this.ctx.model.GoodsCate.aggregate([{
+        $lookup: {
+          from: 'goods_cate',
+          localField: '_id',
+          foreignField: 'pid',
+          as: 'items'
         }
       },
       {
-        $match:{
-          "pid":'0'
+        $match: {
+          "pid": '0'
         }
       }
     ])
-    console.log('goodsCate',goodsCate)
 
 
     await this.ctx.render('admin/goods/add', {
@@ -44,8 +39,31 @@ class GoodsController extends BaseController {
   }
 
   async doAdd() {
+    // console.log(this.ctx.request.body);
+    let uploadResult = await this.service.tool.getUploadFile(this.ctx)
+    let formFields = Object.assign(uploadResult.files, uploadResult.field)
+    console.log('form fileds', formFields)
+    let newGoods = new this.ctx.model.Goods(formFields)
+    let result = await newGoods.save();
 
-    console.log(this.ctx.request.body);
+    if (result._id && formFields.goods_image_list) {
+      let goods_image_list = formFields.goods_image_list;
+
+      if(typeof(goods_image_list === 'strin')){
+        goods_image_list = new Array(goods_image_list)
+      }
+
+      for (let i = 0; i < goods_image_list.length; i++) {
+        let newGoodsImage = new this.ctx.model.goodsImage({
+          goods_id: result._id,
+          img_url: goods_image_list[i]
+        })
+        await newGoodsImage.save()
+      }
+    }
+
+
+
   }
 
 
@@ -70,7 +88,7 @@ class GoodsController extends BaseController {
 
   //上传商品详情的图片
   async goodsUploadImage() {
-    
+
     let result = await this.service.tool.getUploadFile(this.ctx)
     // console.log('files',result)
 
@@ -84,35 +102,10 @@ class GoodsController extends BaseController {
 
   //上传相册的图片
   async goodsUploadPhoto() {
-    let parts = this.ctx.multipart({
-      autoFields: true
-    });
-    let files = {};
-    let stream;
-    while ((stream = await parts()) != null) {
-      if (!stream.filename) {
-        break;
-      }
-      let fieldname = stream.fieldname; //file表单的名字
-
-      //上传图片的目录
-      let dir = await this.service.tool.getUploadFilePath(stream.filename);
-      let target = dir.uploadPath;
-      let writeStream = fs.createWriteStream(target);
-
-      await pump(stream, writeStream);
-
-      files = Object.assign(files, {
-        [fieldname]: dir.savePath
-      })
-
-      //生成缩略图
-      this.service.tool.jimpImg(target);
-      //图片的地址转化成 {link: 'path/to/image.jpg'} 
-    }
+    let result = await this.service.tool.getUploadFile(this.ctx, true)
 
     this.ctx.body = {
-      link: files.file
+      link: result.files.file
     };
   }
 
