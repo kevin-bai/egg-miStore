@@ -52,7 +52,7 @@
                             <li> <span>商品版本:</span> <input type="text" name="goods_version" class="input" /></li>
                             <li> <span>所属分类:</span>
 
-                                <select name="cate_id" id="cate_id">
+                                <select name="cate_id" id="cid">
                                     <%for(var i=0;i<goodsCate.length;i++){%>
                                     <option value="<%=goodsCate[i]._id%>"><%=goodsCate[i].title%></option>
                                     <%for(var j=0;j<goodsCate[i].items.length;j++){%>

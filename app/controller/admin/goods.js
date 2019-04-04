@@ -6,7 +6,9 @@ class GoodsController extends BaseController {
     let goods = await this.ctx.model.Goods.find({})
     console.log('goods',goods)
 
-    await this.ctx.render('admin/goods/index');
+    await this.ctx.render('admin/goods/index',{
+      list: goods
+    });
   }
 
   async add() {
