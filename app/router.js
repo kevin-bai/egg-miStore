@@ -81,8 +81,10 @@ module.exports = app => {
   //商品模块
   router.get('/admin/goods', controller.admin.goods.index);
   router.get('/admin/goods/add', controller.admin.goods.add);
+  router.get('/admin/goods/edit', controller.admin.goods.edit);
   router.get('/admin/goods/goodsTypeAttribute', controller.admin.goods.goodsTypeAttribute);   
   router.post('/admin/goods/doAdd', controller.admin.goods.doAdd);
+  router.post('/admin/goods/doEdit', controller.admin.goods.doEdit);
   router.post('/admin/goods/goodsUploadImage', controller.admin.goods.goodsUploadImage);
   router.post('/admin/goods/goodsUploadPhoto', controller.admin.goods.goodsUploadPhoto);
 

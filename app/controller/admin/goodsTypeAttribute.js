@@ -111,7 +111,7 @@ class GoodsTypeAttributeController extends BaseController {
             "_id": _id
         }, this.ctx.request.body);
 
-        await this.mongoOperResult(result, '/admin/goodsTypeAttribute?id=' + this.ctx.request.body.cate_id, '修改商品类型属性成功')
+        await this.mongoUpdateResultAndRedirect(result, '/admin/goodsTypeAttribute?id=' + this.ctx.request.body.cate_id, '修改商品类型属性成功')
 
         // await this.success('/admin/goodsTypeAttribute?id='+this.ctx.request.body.cate_id,'修改商品类型属性成功');
 

@@ -82,24 +82,22 @@ module.exports = app => {
         },
         is_delete: {
             type: Number,
-            default: 1
+            default: 0
         },
         is_hot: {
             type: Number,
-            default: 1
+            default: 0
         },
         is_best: {
             type: Number,
-            default: 1
+            default: 0
         },
         is_new: {
             type: Number,
-            default: 1
+            default: 0
         },
         goods_type_id: {
-            type: {
-                type: Schema.Types.ObjectId
-            }
+            type: Schema.Types.ObjectId
         },
         status: {
             type: Number,

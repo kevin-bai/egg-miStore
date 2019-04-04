@@ -65,7 +65,7 @@ class RoleController extends BaseController {
             description
         })
         console.log('result', result)
-        await this.mongoOperResult(result,'/admin/role', '编辑角色成功')
+        await this.mongoUpdateResultAndRedirect(result,'/admin/role', '编辑角色成功')
     }
 
     async auth() {

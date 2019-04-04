@@ -47,16 +47,33 @@ class BaseController extends Controller {
     }
 
     /**
-     * 判断mongo操作是否成功
-     * @param {*} result mongo操作结果
+     * 判断mongo操作是否成功,然后跳转
+     * @param {*} result MongoDB update result
+     * @param {*} url 成功跳转 url
+     * @param {*} msg 成功跳转提示信息
      */
-    async mongoOperResult(result,url,msg) {
+    async mongoUpdateResultAndRedirect(result,url,msg) {
         if (result.ok === 1 && result.nModified === 1) {
             await this.success(url, msg)
         } else {
             await this.errorReturnPrevPage()
         }
     }
+
+
+    /**
+     * 判断mongo操作是否成功,成功继续，失败跳转操作失败页面
+     * @param {*} result MongoDB update result
+     */
+    async mongoUpdateResult(result){
+        if (result.ok === 1 && result.nModified === 1) {
+            // go to next
+            await true
+        } else {
+            await this.errorReturnPrevPage()
+        }
+    }
+
 
     /**
      * 操作失败，返回上一页面
