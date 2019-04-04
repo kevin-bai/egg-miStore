@@ -87,5 +87,6 @@ module.exports = app => {
   router.post('/admin/goods/doEdit', controller.admin.goods.doEdit);
   router.post('/admin/goods/goodsUploadImage', controller.admin.goods.goodsUploadImage);
   router.post('/admin/goods/goodsUploadPhoto', controller.admin.goods.goodsUploadPhoto);
+  router.post('/admin/goods/changeGoodsImageColor', controller.admin.goods.changeGoodsImageColor);
 
 };

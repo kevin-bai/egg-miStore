@@ -209,7 +209,7 @@ class GoodsController extends BaseController {
       "goods_id": goodsResult[0]._id
     });
 
-    //console.log(goodsImageResult);
+    console.log('goodsImageResult',goodsImageResult);
 
     await this.ctx.render('admin/goods/edit', {
       colorResult: colorResult,
@@ -233,7 +233,7 @@ class GoodsController extends BaseController {
     let goodsResult = await this.ctx.model.Goods.updateOne({
       '_id': goods_id
     }, formFields)
-    this.mongoUpdateResult(goodsResult)
+    await this.mongoUpdateResult(goodsResult)
 
     //修改图库信息  （增加）
     let goods_image_list = formFields.goods_image_list;
@@ -330,6 +330,40 @@ class GoodsController extends BaseController {
     this.ctx.body = {
       link: result.files.file
     };
+  }
+
+
+  // 修改图片对应颜色
+  async changeGoodsImageColor(){
+    let color_id = this.ctx.request.body.color_id;
+    let goods_image_id = this.ctx.request.body.goods_image_id;
+
+    
+    // if(color_id){
+    //   color_id = this.app.mongoose.Types.ObjectId(color_id)
+    // }
+    console.log('color_id',color_id)
+    console.log('goods_image_id',goods_image_id)
+
+    let result = await this.ctx.model.GoodsImage.updateOne({"_id":goods_image_id},{
+      color_id: color_id
+    })
+
+
+    if(await this.mongoUpdateResult(result)){
+      this.ctx.response.body = {
+        "success":true,
+        "message":"数据更新成功！"
+      }
+    }else{
+      this.ctx.response.body = {
+        "success":false,
+        "message":"数据更新失败！"
+      }
+    }
+    
+
+
   }
 
 
