@@ -5,16 +5,13 @@ module.exports = app => {
     var d = new Date();
     const GoodsSchema = new Schema({
         title: {
-            type: String,
-            default:''
+            type: String
         },
         sub_title: {
-            type: String,
-            default:''
+            type: String
         },
         goods_sn: {
-            type: String,
-            default:''
+            type: String
         },
         cate_id: {
             type: Schema.Types.ObjectId
@@ -28,12 +25,10 @@ module.exports = app => {
             default: 1000
         },
         shop_price: {
-            type: Number,
-            default:0
+            type: Number
         },
         market_price: {
-            type: Number,
-            default:0
+            type: Number
         },
         relation_goods: {
             type: String
@@ -43,56 +38,44 @@ module.exports = app => {
         },
         goods_version: {
             /*版本*/
-            type: String,
-            default:''
+            type: String
         },
         goods_img: {
-            type: String,
-            default:''
+            type: String
         },
         goods_gift: {
-            type: String,
-            default:''
+            type: String
         },
         goods_fitting: {
-            type: String,
-            default:''
+            type: String
         },
         goods_color: {
-            type: String,
-            default:''
+            type: String
         },
         goods_keywords: {
-            type: String,
-            default:''
+            type: String
         },
         goods_desc: {
-            type: String,
-            default:''
+            type: String
         },
         goods_content: {
-            type: String,
-            default:''
+            type: String
         },
         sort: {
             type: Number,
             default: 100
         },
         is_delete: {
-            type: Number,
-            default:1
+            type: Number
         },
         is_hot: {
-            type: Number,
-            default:1
+            type: Number
         },
         is_best: {
-            type: Number,
-            default:1
+            type: Number
         },
         is_new: {
-            type: Number,
-            default:1
+            type: Number
         },
         goods_type_id: {
             type: {

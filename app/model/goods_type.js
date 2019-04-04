@@ -5,8 +5,8 @@ module.exports = app => {
   var d=new Date();
  
   const GoodsTypeSchema = new Schema({
-    title: { type: String,default:''  },
-    description: { type: String,default:''  },   
+    title: { type: String  },
+    description: { type: String  },   
     status: { type: Number,default:1  },    
     add_time: {           
       type:Number,        

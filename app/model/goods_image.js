@@ -8,8 +8,7 @@ module.exports = app => {
             type: Schema.Types.ObjectId
         },
         img_url: {
-            type: String,
-            default:''
+            type: String
         },
         sort: {
             type: Number,
