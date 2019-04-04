@@ -342,27 +342,50 @@ class GoodsController extends BaseController {
     // if(color_id){
     //   color_id = this.app.mongoose.Types.ObjectId(color_id)
     // }
-    console.log('color_id',color_id)
-    console.log('goods_image_id',goods_image_id)
 
     let result = await this.ctx.model.GoodsImage.updateOne({"_id":goods_image_id},{
       color_id: color_id
     })
 
+    await this.mongoUpdateResult4Ajax(result);
 
-    if(await this.mongoUpdateResult(result)){
-      this.ctx.response.body = {
-        "success":true,
-        "message":"数据更新成功！"
-      }
-    }else{
-      this.ctx.response.body = {
-        "success":false,
-        "message":"数据更新失败！"
-      }
-    }
+    // if(await this.mongoUpdateResult(result)){
+    //   this.ctx.response.body = {
+    //     "success":true,
+    //     "message":"数据更新成功！"
+    //   }
+    // }else{
+    //   this.ctx.response.body = {
+    //     "success":false,
+    //     "message":"数据更新失败！"
+    //   }
+    // }
     
+  }
 
+
+  async goodsImageRemove(){
+    let goods_image_id = this.ctx.request.body.goods_image_id;
+    console.log('goods_id',goods_image_id)
+
+    let result = await this.ctx.model.GoodsImage.deleteOne({"_id": this.app.mongoose.Types.ObjectId(goods_image_id)})
+
+    console.log('result',result)
+
+
+    await this.mongoDeleteResult4Ajax(result);
+
+    // if(await this.mongoUpdateResult(result)){
+    //   this.ctx.response.body = {
+    //     "success":true,
+    //     "message":"数据更新成功！"
+    //   }
+    // }else{
+    //   this.ctx.response.body = {
+    //     "success":false,
+    //     "message":"数据更新失败！"
+    //   }
+    // }
 
   }
 

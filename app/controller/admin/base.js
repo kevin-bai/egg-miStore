@@ -74,6 +74,38 @@ class BaseController extends Controller {
         }
     }
 
+    async mongoUpdateResult4Ajax(result){
+        if (result.ok === 1 && result.nModified === 1) {
+            // go to next
+            this.ctx.response.body = {
+                "success":true,
+                "message":"数据更新成功！"
+              }
+            
+        } else {
+            this.ctx.response.body = {
+                "success":false,
+                "message":"数据更新失败！"
+              }
+        }
+    }
+
+    async mongoDeleteResult4Ajax(result){
+        if (result.ok === 1 && result.deletedCount >0 ) {
+            // go to next
+            this.ctx.response.body = {
+                "success":true,
+                "message":"数据删除成功！"
+              }
+            
+        } else {
+            this.ctx.response.body = {
+                "success":false,
+                "message":"数据删除失败！"
+              }
+        }
+    }
+
 
     /**
      * 操作失败，返回上一页面
