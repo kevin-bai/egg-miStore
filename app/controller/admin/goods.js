@@ -3,11 +3,18 @@ const BaseController = require('./base.js');
 
 class GoodsController extends BaseController {
   async index() {
-    let goods = await this.ctx.model.Goods.find({})
+    let page = this.ctx.request.query.page || 1;
+    let pageSize = 2;
+    let totalCount = await this.ctx.model.Goods.find({}).count();
+    let totalPages = Math.ceil(totalCount/pageSize)
+    let goods = await this.ctx.model.Goods.find({}).skip((page - 1)*pageSize).limit(pageSize)
     console.log('goods', goods)
+  
 
     await this.ctx.render('admin/goods/index', {
-      list: goods
+      list: goods,
+      page,
+      totalPages
     });
   }
 
@@ -371,22 +378,8 @@ class GoodsController extends BaseController {
     let result = await this.ctx.model.GoodsImage.deleteOne({"_id": this.app.mongoose.Types.ObjectId(goods_image_id)})
 
     console.log('result',result)
-
-
     await this.mongoDeleteResult4Ajax(result);
-
-    // if(await this.mongoUpdateResult(result)){
-    //   this.ctx.response.body = {
-    //     "success":true,
-    //     "message":"数据更新成功！"
-    //   }
-    // }else{
-    //   this.ctx.response.body = {
-    //     "success":false,
-    //     "message":"数据更新失败！"
-    //   }
-    // }
-
+    
   }
 
 

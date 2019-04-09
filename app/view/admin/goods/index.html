@@ -111,7 +111,19 @@
 
 
             <script>
+               $('#page').jqPaginator({
+                    totalPages: <%=totalPages%>,
+                    visiblePages: 8,
+                    currentPage:  <%=page%>,
+                    onPageChange: function (num, type) {
+                        console.log('当前第' + num + '页',type);
 
+                        if(type=='change'){
+
+                        location.href="/admin/goods?page="+num;
+                        }
+                    }
+                });
             </script>
 </body>
 </html>
