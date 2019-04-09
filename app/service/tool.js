@@ -83,7 +83,8 @@ class ToolService extends Service {
 
   /**
    * 
-   * @param {*} parts   let parts = this.ctx.multipart({autoFields: true});
+   * @param {Object} ctx let parts = this.ctx.multipart({autoFields: true});
+   * @param {Boolean} isJump  是否生成缩略图
    * @returns result.files ：文件path。 剩下的是其他表单字段
    */
   async getUploadFile(ctx, isJump) {

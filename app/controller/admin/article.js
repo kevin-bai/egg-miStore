@@ -82,35 +82,10 @@ class ArticleController extends BaseController {
 
   async doAdd() {
 
-    let parts = this.ctx.multipart({
-      autoFields: true
-    });
-    let files = {};
-    let stream;
-    while ((stream = await parts()) != null) {
-      if (!stream.filename) {
-        break;
-      }
-      let fieldname = stream.fieldname; //file表单的名字
+    let uploadResult = await this.service.tool.getUploadFile(this.ctx, true)
+    let formFields = Object.assign(uploadResult.files, uploadResult.field)
 
-      //上传图片的目录
-      let dir = await this.service.tools.getUploadFile(stream.filename);
-      let target = dir.uploadDir;
-      let writeStream = fs.createWriteStream(target);
-
-      await pump(stream, writeStream);
-
-      files = Object.assign(files, {
-        [fieldname]: dir.saveDir
-      })
-
-      //生成缩略图
-      this.service.tools.jimpImg(target);
-
-
-    }
-
-    let article = new this.ctx.model.Article(Object.assign(files, parts.field));
+    let article = new this.ctx.model.Article(formFields);
     await article.save();
 
     await this.success('/admin/article', '增加文章成功');

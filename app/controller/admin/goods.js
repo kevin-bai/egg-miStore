@@ -3,11 +3,17 @@ const BaseController = require('./base.js');
 
 class GoodsController extends BaseController {
   async index() {
+    let keyword = this.ctx.request.query.keyword;
+    let json = {}
+    if (keyword) {
+      json = Object.assign({"title": {$regex: new RegExp(keyword,'i')}});
+      console.log('json',json)
+    }
     let page = this.ctx.request.query.page || 1;
     let pageSize = 2;
-    let totalCount = await this.ctx.model.Goods.find({}).count();
-    let totalPages = Math.ceil(totalCount/pageSize)
-    let goods = await this.ctx.model.Goods.find({}).skip((page - 1)*pageSize).limit(pageSize)
+    let totalCount = await this.ctx.model.Goods.find(json).count();
+    let totalPages = Math.ceil(totalCount/pageSize);
+    let goods = await this.ctx.model.Goods.find(json).skip((page - 1)*pageSize).limit(pageSize)
     console.log('goods', goods)
   
 

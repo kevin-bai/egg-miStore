@@ -114,46 +114,19 @@ class ArticleCateController extends BaseController {
 
   async doEdit() {
 
-    let parts = this.ctx.multipart({
-      autoFields: true
-    });
-    let files = {};
-    let stream;
-    while ((stream = await parts()) != null) {
-      if (!stream.filename) {
-        break;
-      }
-      let fieldname = stream.fieldname; //file表单的名字
-
-      //上传图片的目录
-      let dir = await this.service.tools.getUploadFile(stream.filename);
-      let target = dir.uploadDir;
-      let writeStream = fs.createWriteStream(target);
-
-      await pump(stream, writeStream);
-
-      files = Object.assign(files, {
-        [fieldname]: dir.saveDir
-      })
+    let uploadResult = await this.service.tool.getUploadFile(this.ctx, true)
+    let formFields = Object.assign(uploadResult.files, uploadResult.field)
 
 
-      //生成缩略图
-      this.service.tools.jimpImg(target);
+    if (uploadResult.field.pid != 0) {
+      uploadResult.field.pid = this.app.mongoose.Types.ObjectId(uploadResult.field.pid); //调用mongoose里面的方法把字符串转换成ObjectId      
 
     }
 
-
-    if (parts.field.pid != 0) {
-      parts.field.pid = this.app.mongoose.Types.ObjectId(parts.field.pid); //调用mongoose里面的方法把字符串转换成ObjectId      
-
-    }
-
-    var id = parts.field.id;
-    var updateResult = Object.assign(files, parts.field);
-
+    var id = uploadResult.field.id;
     await this.ctx.model.ArticleCate.updateOne({
       "_id": id
-    }, updateResult);
+    }, formFields);
 
     await this.success('/admin/articleCate', '修改分类成功');
 
