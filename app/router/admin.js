@@ -48,7 +48,12 @@ module.exports = app => {
   router.post('/admin/file/doAdd', controller.admin.file.doAdd);
   router.get('/admin/file/edit', controller.admin.file.edit);
   router.post('/admin/file/doEdit', controller.admin.file.doEdit);
-
+  
+  router.get('/admin/focus', controller.admin.focus.index);
+  router.get('/admin/focus/add', controller.admin.focus.add);
+  router.post('/admin/focus/doAdd', controller.admin.focus.doAdd);
+  router.get('/admin/focus/edit', controller.admin.focus.edit);
+  router.post('/admin/focus/doEdit', controller.admin.focus.doEdit);
 
   //商品类型
   router.get('/admin/goodsType', controller.admin.goodsType.index);
