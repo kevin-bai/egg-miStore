@@ -22,6 +22,8 @@ class IndexController extends Controller {
         $match: {
           "pid": '0'
         }
+      },{
+        $limit:10
       }
     ])
     // console.log('goods cate',goodsCate)

@@ -110,7 +110,7 @@ header .top .right .gouwuche:hover{color:#000;background: #666;}
 
 }
 .banner_y .nav{
-	overflow: hidden;
+	/* overflow-y: auto; */
 	width: 234px;
 	height: 460px;
     background: rgba(12,12,19,0.8);
