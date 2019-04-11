@@ -56,6 +56,17 @@ module.exports = appInfo => {
       mode: 'stream'
    };
 
+     //redis数据库连接地址
+  config.redis = {
+    client: {
+      port: 6379,          // Redis port
+      host: '127.0.0.1',   // Redis host
+      password: '',
+      db: 0
+    }
+  }
+
+
   config.mongoose = {
     client: {
       // url: 'mongodb://127.0.0.1:27017/eggxiaomi',
