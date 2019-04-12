@@ -28,6 +28,6 @@ exports.mongoose = {
 
 
 exports.redis = {
-  enable: false,
+  enable: true,
   package: 'egg-redis',
 };

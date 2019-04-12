@@ -9,12 +9,14 @@ module.exports = app => {
     controller
   } = app;
 
-  router.get('/', controller.default.index.index);
+  let initMiddleWare = app.middleware.init({},app)
 
-  router.get('/plist', controller.default.product.list);
-  router.get('/pinfo', controller.default.product.info);
-  router.get('/pinfo', controller.default.product.info);
-  router.get('/cart', controller.default.flow.cart);
+  router.get('/',initMiddleWare, controller.default.index.index);
+
+  router.get('/plist',initMiddleWare, controller.default.product.list);
+  router.get('/pinfo',initMiddleWare, controller.default.product.info);
+  router.get('/pinfo',initMiddleWare, controller.default.product.info);
+  router.get('/cart',initMiddleWare, controller.default.flow.cart);
 
   //用户中心
   router.get('/login', controller.default.user.login);
