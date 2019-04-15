@@ -1,5 +1,28 @@
 const sd = require('silly-datetime')
 const path = require('path')
+const showdown = require('showdown')
+
+/*
+https://www.npmjs.com/package/showdown
+
+1、安装
+
+cnpm  install showdown --save
+
+2、引入
+
+var showdown  = require('showdown');
+
+
+3、使用
+
+
+   var converter = new showdown.Converter();
+   var  text      = '# hello, markdown!';
+   var  html      = converter.makeHtml(text);
+
+*/
+
 module.exports = {
 
   /**
@@ -12,10 +35,13 @@ module.exports = {
     return sd.format(timestamp)
   },
 
-
-
   formatImg(dir, width, height) {
     height = height || width;
     return dir + '_' + width + 'x' + height + path.extname(dir);
+  },
+
+  formatAttr(str){
+    let converter = new showdown.Converter();
+    return converter.makeHtml(str)
   }
 }

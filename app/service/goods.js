@@ -67,6 +67,31 @@ class GoodsService extends Service {
         }
 
     }
+
+
+    /**
+     * str convert to id array
+     * @param {*} str eg:   '5ca5cb53fcde8f8386f2e73a,5ca5cb53fcde8f8386f2e73a,5ca5cb53fcde8f8386f2e73a'
+     */
+    async strToIds(str){
+        let arr = str.replace(/'，'/g,',').split(',')
+        let ids = [];
+
+        try {
+            if (arr) {
+                arr.forEach(item =>{
+                    ids.push({
+                        '_id': this.app.mongoose.Types.ObjectId(item)
+                    })
+                })
+                return ids
+            } else {
+                return [{"1":-1}]
+            }
+        } catch (error) {
+            return [{"1":-1}] // 返回一个不成立的条件
+        }
+    }
 }
 
 module.exports = GoodsService;
