@@ -15,7 +15,7 @@ class ProductController extends Controller {
     let goodsList;
     if (pid.toString() != '0') {
       goodsList = await this.ctx.model.Goods.find({
-        'cate_id': pid
+        'cate_id': cid
       }, '_id title price sub_title goods_img')
     } else {
       let subCate = await this.ctx.model.GoodsCate.find({
@@ -36,7 +36,7 @@ class ProductController extends Controller {
 
     }
 
-    //console.log('goodsList', goodsList)
+    console.log('goodsList', goodsList)
 
 
     await this.ctx.render('default/product_list.html', {

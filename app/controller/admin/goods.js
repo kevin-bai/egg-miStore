@@ -10,7 +10,7 @@ class GoodsController extends BaseController {
       console.log('json',json)
     }
     let page = this.ctx.request.query.page || 1;
-    let pageSize = 5;
+    let pageSize = 8;
     let totalCount = await this.ctx.model.Goods.find(json).count();
     let totalPages = Math.ceil(totalCount/pageSize);
     let goods = await this.ctx.model.Goods.find(json).skip((page - 1)*pageSize).limit(pageSize)

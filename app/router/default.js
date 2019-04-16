@@ -17,7 +17,7 @@ module.exports = app => {
   router.get('/plist', initMiddleWare, controller.default.product.list);
   router.get('/pinfo', initMiddleWare, controller.default.product.info);
   router.get('/getImagelist', initMiddleWare, controller.default.product.getImagelist);
-  router.get('/cart', initMiddleWare, controller.default.flow.cart);
+  // router.get('/cart', initMiddleWare, controller.default.flow.cart);
 
   // 用户中心
   router.get('/login', controller.default.user.login);

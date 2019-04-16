@@ -17,7 +17,8 @@ class CartController extends Controller {
             this.ctx.body = '错误404'
         } else {
             // 赠品
-            var goodsGiftIds=this.ctx.service.goods.strToArray(goodsResult.goods_gift);
+            var goodsGiftIds=await this.ctx.service.goods.strToIds(goodsResult.goods_gift);
+            //console.log('goodsGiftIds',goodsGiftIds)
             var goodsGift=await this.ctx.model.Goods.find({
                 $or:goodsGiftIds
             });
@@ -35,7 +36,7 @@ class CartController extends Controller {
             let cartList=this.service.cookies.get('cartList');
             if (cartList && cartList.length > 0) {
 
-                if (this.service.cart.cartHasData(cartList, currentData)) {
+                if (await this.service.cart.cartHasData(cartList, currentData)) {
                     cartList.forEach(item => {
                         if (item._id === currentData._id) {
                             item.num++
@@ -47,7 +48,7 @@ class CartController extends Controller {
                     this.service.cookies.set('cartList',cartList)
                 }
 
-                
+                console.log('cartList',cartList)
             } else {
                 let tempArr = []
                 tempArr.push(currentData)
@@ -89,6 +90,20 @@ class CartController extends Controller {
     }
 
     async cartList() {
+        let cartList = await this.service.cookies.get('cartList');
+        let allPrice =0;
+        if (cartList && cartList.length >0) {
+            cartList.forEach(item =>{
+                allPrice += item.price
+            })
+        }
+        console.log('cartList',cartList)
+
+        await this.ctx.render('default/cart.html',{
+            allPrice,
+            cartList
+        })
+
 
     }
 
