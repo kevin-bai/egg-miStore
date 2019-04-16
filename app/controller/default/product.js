@@ -16,7 +16,7 @@ class ProductController extends Controller {
     if (pid.toString() != '0') {
       goodsList = await this.ctx.model.Goods.find({
         'cate_id': cid
-      }, '_id title price sub_title goods_img')
+      }, '_id title shop_price sub_title goods_img')
     } else {
       let subCate = await this.ctx.model.GoodsCate.find({
         'pid': this.app.mongoose.Types.ObjectId(cid)
@@ -32,7 +32,7 @@ class ProductController extends Controller {
 
       goodsList = await this.ctx.model.Goods.find({
         $or: subCateIds
-      }, '_id title price sub_title goods_img')
+      }, '_id title shop_price sub_title goods_img')
 
     }
 
