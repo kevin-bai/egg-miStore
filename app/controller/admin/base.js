@@ -29,6 +29,7 @@ class BaseController extends Controller {
 
     async captcha() {
         let captcha = await this.ctx.service.tool.captcha();
+        this.ctx.session.code = captcha.text;
         this.ctx.response.type = 'image/svg+xml';
         this.ctx.body = captcha.data
     }

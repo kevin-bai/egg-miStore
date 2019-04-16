@@ -29,12 +29,25 @@ module.exports = app => {
   // 购物车
   router.get('/addCart', controller.default.cart.addCart);
   router.get('/cart', initMiddleWare, controller.default.cart.cartList);
-  router.get('/addCartSuccess', initMiddleWare,controller.default.cart.addCartSuccess);
-  router.get('/incCart', initMiddleWare,controller.default.cart.incCart);
-  router.get('/decCart', initMiddleWare,controller.default.cart.decCart);
-  router.get('/changeOneCart', initMiddleWare,controller.default.cart.changeOneCart);
-  router.get('/changeAllCart', initMiddleWare,controller.default.cart.changeAllCart);
-  router.get('/removeCart', initMiddleWare,controller.default.cart.removeCart);
+  router.get('/addCartSuccess', initMiddleWare, controller.default.cart.addCartSuccess);
+  router.get('/incCart', initMiddleWare, controller.default.cart.incCart);
+  router.get('/decCart', initMiddleWare, controller.default.cart.decCart);
+  router.get('/changeOneCart', initMiddleWare, controller.default.cart.changeOneCart);
+  router.get('/changeAllCart', initMiddleWare, controller.default.cart.changeAllCart);
+  router.get('/removeCart', initMiddleWare, controller.default.cart.removeCart);
+
+
+  //用户注册登录
+  router.get('/login', initMiddleWare, controller.default.pass.login);
+  router.get('/register/registerStep1', initMiddleWare, controller.default.pass.registerStep1);
+  router.get('/register/registerStep2', initMiddleWare, controller.default.pass.registerStep2);
+  router.get('/register/registerStep3', initMiddleWare, controller.default.pass.registerStep3);
+  router.get('/pass/sendCode', initMiddleWare, controller.default.pass.sendCode);
+  router.get('/pass/validatePhoneCode', initMiddleWare, controller.default.pass.validatePhoneCode);
+
+
+  //验证码
+  router.get('/verify', initMiddleWare, controller.default.base.verify);
 
 
 };

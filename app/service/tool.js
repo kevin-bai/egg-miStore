@@ -11,15 +11,32 @@ const pump = require('mz-modules/pump');
 const Service = require('egg').Service;
 
 class ToolService extends Service {
-  async captcha() {
+
+  async getDay(){
+    return sd.format(new Date(), 'YYYMMDD')
+  }
+
+  async getRandomNum(){
+    let str = '';
+
+    for (let i = 0; i < 4; i++) {
+      str += Math.floor(Math.random()* 10)
+    }
+    return str
+
+  }
+
+
+  async captcha(width, height) {
+    width = width | 100;
+    height = height | 40;
     let captcha = svgCaptcha.create({
       size: 4,
       fontSize: 50,
-      width: 100,
-      height: 40,
+      width: width,
+      height: height,
       background: "#cc9966"
     });
-    this.ctx.session.code = captcha.text;
     // console.log('captcha code',this.ctx.session.code)
     return captcha
   }
