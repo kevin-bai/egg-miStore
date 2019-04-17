@@ -8,6 +8,52 @@ class PassController extends Controller {
   async login() {
     await this.ctx.render('default/pass/login.html');
   }
+
+  async doLogin(){
+    let username = this.ctx.request.body.username
+    let password = this.ctx.request.body.password;
+    let identify_code = this.ctx.request.body.identify_code;
+
+    if (identify_code.toUpperCase() != this.ctx.session.identify_code.toUpperCase()) {
+
+      let captcha =await this.ctx.service.tool.captcha(120,50);
+      this.ctx.session.identify_code = captcha.text;
+
+      this.ctx.body = {
+        success:false,
+        msg:'验证码错误'
+      }
+    }else{
+
+      let userResult = await this.ctx.model.User.findOne({
+        phone:username,
+        password: await this.service.tool.md5(password)
+      },'_id phone last_ip add_time email status')
+  
+      if (!userResult) {
+        this.ctx.body = {
+          success: false,
+          msg:'用户名密码错误'
+        }
+      }else{
+        await this.service.cookies.set('userinfo',userResult)
+        this.ctx.body ={
+          success: true,
+          msg: '登录成功'
+        }
+  
+      } 
+
+    }
+
+  }
+
+  async doLogout(){
+    this.service.cookies.set('userinfo','')
+    await this.ctx.redirect('/')
+  }
+
+
   //注册第一步 输入手机号
   async registerStep1() {
     await this.ctx.render('default/pass/register_step1.html');
@@ -40,8 +86,8 @@ class PassController extends Controller {
     let phone_code = this.ctx.request.query.phone_code
     let add_day = await this.service.tool.getDay(); //年月日   
     let userTempResult = await this.ctx.model.UserTemp.findOne({
-      "sign":sign,
-      add_day:add_day
+      "sign": sign,
+      add_day: add_day
     })
     let msg = '';
     //console.log(sign)
@@ -50,7 +96,7 @@ class PassController extends Controller {
     if (!userTempResult) {
       await this.ctx.redirect('/register/registerStep1');
     } else {
-      await this.ctx.render('default/pass/register_step3.html',{
+      await this.ctx.render('default/pass/register_step3.html', {
         sign,
         phone_code,
         msg
@@ -63,27 +109,27 @@ class PassController extends Controller {
   }
   //完成注册  post
   async doRegister() {
-    console.log('body',this.ctx.request.body)
+    console.log('body', this.ctx.request.body)
     let sign = this.ctx.request.body.sign;
     let phone_code = this.ctx.request.body.phone_code;
     let password = this.ctx.request.body.password;
     let rpassword = this.ctx.request.body.rpassword;
-    
-    let add_day =await this.service.tool.getDay()
-    let ip = this.ctx.request.ip.replace(/::ffff:/,'')
+
+    let add_day = await this.service.tool.getDay()
+    let ip = this.ctx.request.ip.replace(/::ffff:/, '')
 
     // 返回页面错误信息
-    if(this.ctx.session.phone_code != phone_code){
+    if (this.ctx.session.phone_code != phone_code) {
       await this.ctx.redirect('/register/registerStep1')
     }
     let msg = ''
-    if(password.length < 6 || password != rpassword){
+    if (password.length < 6 || password != rpassword) {
       msg = '密码必须大于6位并且一致'
       await this.ctx.redirect(`/register/registerStep3?sign=${sign}&phone_code=${phone_code}&msg=${msg}`)
     }
 
     let userTemp = await this.ctx.model.UserTemp.findOne({
-      'sign':sign,
+      'sign': sign,
       add_day
     })
     if (!userTemp) {
@@ -99,7 +145,7 @@ class PassController extends Controller {
     if (userResult) {
       let userInfo = await this.ctx.model.User.findOne({
         phone: userTemp.phone
-      },'_id phone last_ip add_time')
+      }, '_id phone last_ip add_time')
       this.service.cookies.set('userinfo', userInfo);
     }
 
@@ -107,8 +153,8 @@ class PassController extends Controller {
     this.ctx.redirect('/')
     //this.ctx.session.userInfo = userInfo;
   }
-  //验证验证码
 
+  //验证验证码
   async validatePhoneCode() {
 
     let sign = this.ctx.request.query.sign;
@@ -174,7 +220,6 @@ class PassController extends Controller {
 
   //发送短信验证码
   async sendCode() {
-
     let phone = this.ctx.request.query.phone;
     let identify_code = this.ctx.request.query.identify_code; //用户输入的验证码
 
@@ -256,7 +301,7 @@ class PassController extends Controller {
           });
           userTmep.save();
           //发送短信
-          await  this.service.sendmsg.send(phone, phone_code)
+          await this.service.sendmsg.send(phone, phone_code)
           this.ctx.session.phone_code = phone_code;
           this.ctx.body = {
             success: true,

@@ -20,8 +20,8 @@ module.exports = app => {
   // router.get('/cart', initMiddleWare, controller.default.flow.cart);
 
   // 用户中心
-  router.get('/login', controller.default.user.login);
-  router.get('/register', controller.default.user.register);
+  //router.get('/login', controller.default.user.login);
+  //router.get('/register', controller.default.user.register);
   router.get('/user', controller.default.user.welcome);
   router.get('/user/order', controller.default.user.order);
 
@@ -39,12 +39,14 @@ module.exports = app => {
 
   //用户注册登录
   router.get('/login', initMiddleWare, controller.default.pass.login);
+  router.post('/pass/doLogin', initMiddleWare, controller.default.pass.doLogin);
   router.get('/register/registerStep1', initMiddleWare, controller.default.pass.registerStep1);
   router.get('/register/registerStep2', initMiddleWare, controller.default.pass.registerStep2);
   router.get('/register/registerStep3', initMiddleWare, controller.default.pass.registerStep3);
   router.get('/pass/sendCode', initMiddleWare, controller.default.pass.sendCode);
   router.get('/pass/validatePhoneCode', initMiddleWare, controller.default.pass.validatePhoneCode);
   router.post('/user/doRegister', initMiddleWare, controller.default.pass.doRegister);
+  router.get('/pass/loginOut', initMiddleWare, controller.default.pass.doLogout);
 
 
   //验证码
