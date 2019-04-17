@@ -1,7 +1,7 @@
 module.exports = (options, app) => {
 
     return async function init(ctx, next) {
-
+        ctx.locals.csrf = ctx.csrf // csrf token
         // 顶部导航
         let topNav = await ctx.service.cache.get('index_topNav');
         if (!topNav) {

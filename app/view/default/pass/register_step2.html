@@ -21,7 +21,7 @@
 					</div>
 					<div class="regist_main center">
 
-						<p>验证码已通过短信发送至152******12，请输入完成验证。手机绑定是为保障用户的信息真实性和帐号安全性</p>
+						<p>验证码已通过短信发送至<%=phone%>，请输入完成验证。手机绑定是为保障用户的信息真实性和帐号安全性</p>
 
 						<br>
 						<br>
@@ -103,7 +103,7 @@
 												console.log(response);												
 												
 												if(response.success==true){
-													location.href="/register/registerStep3?sign="+response.sign;
+													location.href="/register/registerStep3?sign="+response.sign + '&phone_code='+phone_code;
 												}else{
 													alert(response.msg);
 												}

@@ -43,13 +43,17 @@ class PassController extends Controller {
       "sign":sign,
       add_day:add_day
     })
+    let msg = '';
+    //console.log(sign)
 
+    //console.log('userTempResult',userTempResult)
     if (!userTempResult) {
       await this.ctx.redirect('/register/registerStep1');
     } else {
       await this.ctx.render('default/pass/register_step3.html',{
         sign,
-        identify_code
+        phone_code,
+        msg
       });
 
     }
@@ -59,12 +63,49 @@ class PassController extends Controller {
   }
   //完成注册  post
   async doRegister() {
-    console.log('body',this.ctx.body)
-    let password = this.ctx.body.password
+    console.log('body',this.ctx.request.body)
+    let sign = this.ctx.request.body.sign;
+    let phone_code = this.ctx.request.body.phone_code;
+    let password = this.ctx.request.body.password;
+    let rpassword = this.ctx.request.body.rpassword;
+    
+    let add_day =await this.service.tool.getDay()
+    let ip = this.ctx.request.ip.replace(/::ffff:/,'')
+
+    // 返回页面错误信息
+    if(this.ctx.session.phone_code != phone_code){
+      await this.ctx.redirect('/register/registerStep1')
+    }
+    let msg = ''
+    if(password.length < 6 || password != rpassword){
+      msg = '密码必须大于6位并且一致'
+      await this.ctx.redirect(`/register/registerStep3?sign=${sign}&phone_code=${phone_code}&msg=${msg}`)
+    }
+
+    let userTemp = await this.ctx.model.UserTemp.findOne({
+      'sign':sign,
+      add_day
+    })
+    if (!userTemp) {
+      await this.ctx.redirect('/register/registerStep1')
+    }
+
+    let userResult = await this.ctx.model.User({
+      phone: userTemp.phone,
+      password: await this.service.tool.md5(password),
+      last_ip: ip
+    })
+    userResult.save();
+    if (userResult) {
+      let userInfo = await this.ctx.model.User.findOne({
+        phone: userTemp.phone
+      },'_id phone last_ip add_time')
+      this.service.cookies.set('userinfo', userInfo);
+    }
 
 
-
-    this.ctx.body = '完成注册';
+    this.ctx.redirect('/')
+    //this.ctx.session.userInfo = userInfo;
   }
   //验证验证码
 

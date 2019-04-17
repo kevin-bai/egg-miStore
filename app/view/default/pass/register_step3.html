@@ -26,9 +26,9 @@
 
 						<form action="/user/doRegister" method="post" id="form">		
 							
-							
-							<input type="hidden" name="sign" value="1111" />
-							<input type="hidden" name="identify_code"  value="2222"/>
+							<input type="hidden" name="_csrf" value="<%=csrf%>">
+							<input type="hidden" name="sign" value="<%=sign%>" />
+							<input type="hidden" name="phone_code"  value="<%=phone_code%>"/>
 							<div>
 								<input class="form_input" type="text" id="password" name="password" placeholder="请输入密码"/>
 							
