@@ -9,47 +9,48 @@ class PassController extends Controller {
     await this.ctx.render('default/pass/login.html');
   }
 
-  async doLogin(){
+  async doLogin() {
     let username = this.ctx.request.body.username
     let password = this.ctx.request.body.password;
     let identify_code = this.ctx.request.body.identify_code;
 
     if (identify_code.toUpperCase() != this.ctx.session.identify_code.toUpperCase()) {
 
-      let captcha =await this.ctx.service.tool.captcha(120,50);
+      // 这里做一层安全防护， 防止绕过浏览器图片验证码，做请求。 本身不参与下一次的验证码校验，校验还是按图片'/verify'流程走
+      let captcha = await this.ctx.service.tool.captcha(120, 50);
       this.ctx.session.identify_code = captcha.text;
 
       this.ctx.body = {
-        success:false,
-        msg:'验证码错误'
+        success: false,
+        msg: '验证码错误'
       }
-    }else{
+    } else {
 
       let userResult = await this.ctx.model.User.findOne({
-        phone:username,
+        phone: username,
         password: await this.service.tool.md5(password)
-      },'_id phone last_ip add_time email status')
-  
+      }, '_id phone last_ip add_time email status')
+
       if (!userResult) {
         this.ctx.body = {
           success: false,
-          msg:'用户名密码错误'
+          msg: '用户名密码错误'
         }
-      }else{
-        await this.service.cookies.set('userinfo',userResult)
-        this.ctx.body ={
+      } else {
+        await this.service.cookies.set('userinfo', userResult)
+        this.ctx.body = {
           success: true,
           msg: '登录成功'
         }
-  
-      } 
+
+      }
 
     }
 
   }
 
-  async doLogout(){
-    this.service.cookies.set('userinfo','')
+  async doLogout() {
+    this.service.cookies.set('userinfo', '')
     await this.ctx.redirect('/')
   }
 

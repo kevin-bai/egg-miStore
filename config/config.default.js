@@ -77,11 +77,21 @@ module.exports = appInfo => {
     }
   };
 
+  config.csrfWhiteList = [
+    '/admin/goods/goodsUploadImage',
+    '/admin/goods/goodsUploadPhoto',
+    '/user/addAddress',
+    '/user/editAddress',
+     '/alipay/alipayNotify'
+  ]
+  //ctx.request.url=='/admin/goods/goodsUploadImage' || ctx.request.url=='/admin/goods/goodsUploadPhoto'|| ctx.request.url == '/user/addAddress' ||  ctx.request.url == '/user/editAddress' || ctx.request.url == '/alipay/alipayNotify'
+
+  // config.csrfWhiteList.some(ctx.request.url
   config.security = {
     csrf: {
         // 判断是否需要 ignore 的方法，请求上下文 context 作为第一个参数
         ignore: ctx => {
-          if(ctx.request.url=='/admin/goods/goodsUploadImage' || ctx.request.url=='/admin/goods/goodsUploadPhoto'){
+          if(config.csrfWhiteList.indexOf(ctx.request.url) > 0){
             return true;
           }
           return false;
