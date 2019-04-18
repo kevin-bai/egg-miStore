@@ -25,14 +25,14 @@ module.exports = appInfo => {
   config.adminAuth = {
     match: '/admin'
   }
-  
+
   config.adminAuthWhiteList = [
     '/admin/login',
     '/admin/doLogin',
     '/admin/verify',
     '/admin/manager/add',
     '/admin/manager/doAdd'
-]
+  ]
 
   config.uploadDir = 'app/public/admin/upload/'
 
@@ -50,21 +50,23 @@ module.exports = appInfo => {
     },
   };
 
-    //配置表单数量
-    config.multipart = {
-      fields: '50',
-      mode: 'stream'
-   };
+  //配置表单数量
+  config.multipart = {
+    fields: '50',
+    mode: 'stream'
+  };
 
-     //redis数据库连接地址
+  //redis数据库连接地址
   config.redis = {
     client: {
-      port: 6379,          // Redis port
-      host: '127.0.0.1',   // Redis host
+      port: 6379, // Redis port
+      host: '127.0.0.1', // Redis host
       password: '',
       db: 0
     }
   }
+
+
 
 
   config.mongoose = {
@@ -82,22 +84,35 @@ module.exports = appInfo => {
     '/admin/goods/goodsUploadPhoto',
     '/user/addAddress',
     '/user/editAddress',
-     '/alipay/alipayNotify'
+    '/alipay/alipayNotify'
   ]
   //ctx.request.url=='/admin/goods/goodsUploadImage' || ctx.request.url=='/admin/goods/goodsUploadPhoto'|| ctx.request.url == '/user/addAddress' ||  ctx.request.url == '/user/editAddress' || ctx.request.url == '/alipay/alipayNotify'
 
   // config.csrfWhiteList.some(ctx.request.url
   config.security = {
     csrf: {
-        // 判断是否需要 ignore 的方法，请求上下文 context 作为第一个参数
-        ignore: ctx => {
-          if(config.csrfWhiteList.includes(ctx.request.url)){
-            return true;
-          }
-          return false;
-        }      
+      // 判断是否需要 ignore 的方法，请求上下文 context 作为第一个参数
+      ignore: ctx => {
+        if (config.csrfWhiteList.includes(ctx.request.url)) {
+          return true;
+        }
+        return false;
       }
     }
+  }
+
+
+  config.alipayOptions = {
+    app_id: '2018122062672017',
+    appPrivKeyFile: '',
+    alipayPubKeyFile: ''
+  }
+
+
+  config.alipayBasicParams = {
+    return_url: 'http://127.0.0.1:7001/alipay/alipayReturn', //支付成功返回地址
+    notify_url: 'http://127.0.0.1:7001/alipay/alipayNotify' //支付成功异步通知地址
+  }
 
 
 

@@ -11,6 +11,8 @@ module.exports = app => {
 
   let initMiddleware = app.middleware.init({}, app)
   let userauthMiddleware = app.middleware.userAuth({}, app)
+  let xmlparseMiddleware = app.middleware.xmlparse()
+
 
   router.get('/', initMiddleware, controller.default.index.index);
 
@@ -53,19 +55,21 @@ module.exports = app => {
   //验证码
   router.get('/verify', initMiddleware, controller.default.base.verify);
 
+
+  // address   收货地址（api接口）
+  router.post('/user/addAddress', initMiddleware, userauthMiddleware, controller.default.address.addAddress);
+  router.get('/user/getAddressList', initMiddleware, userauthMiddleware, controller.default.address.getAddressList);
+  router.get('/user/getOneAddressList', initMiddleware, userauthMiddleware, controller.default.address.getOneAddressList);
+  router.get('/user/changeDefaultAddress', initMiddleware, userauthMiddleware, controller.default.address.changeDefaultAddress);
+  router.post('/user/editAddress', initMiddleware, userauthMiddleware, controller.default.address.editAddress);
+
   // 去结算
   router.get('/buy/checkout', initMiddleware, userauthMiddleware, controller.default.buy.checkout);
   //确认订单去支付
   router.get('/buy/confirm', initMiddleware, userauthMiddleware, controller.default.buy.confirm);
   //提交订单
   router.post('/buy/doOrder', initMiddleware, userauthMiddleware, controller.default.buy.doOrder);
-
-
-   // address   收货地址（api接口）
-   router.post('/user/addAddress', initMiddleware, userauthMiddleware, controller.default.address.addAddress);
-   router.get('/user/getAddressList', initMiddleware, userauthMiddleware, controller.default.address.getAddressList);
-   router.get('/user/getOneAddressList', initMiddleware, userauthMiddleware, controller.default.address.getOneAddressList);
-   router.get('/user/changeDefaultAddress', initMiddleware, userauthMiddleware, controller.default.address.changeDefaultAddress);
-   router.post('/user/editAddress', initMiddleware, userauthMiddleware, controller.default.address.editAddress);
- 
+  router.post('/alipay/pay', initMiddleware, userauthMiddleware, controller.default.alipay.pay);
+  router.get('/alipay/alipayReturn', initMiddleware, userauthMiddleware, controller.default.alipay.alipayReturn);
+  router.post('/alipay/alipayNotify', initMiddleware, userauthMiddleware, xmlparseMiddleware, controller.default.alipay.alipayNotify);
 };
