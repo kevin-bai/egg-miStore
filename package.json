@@ -7,6 +7,7 @@
     "declarations": true
   },
   "dependencies": {
+    "alipay-mobile": "^3.0.9",
     "egg": "^2.15.1",
     "egg-mongoose": "^3.1.1",
     "egg-mysql": "^3.0.0",
@@ -14,6 +15,7 @@
     "egg-scripts": "^2.11.0",
     "egg-view-ejs": "^2.0.0",
     "jimp": "^0.5.3",
+    "koa-xml-body": "^2.1.0",
     "md5": "^2.2.1",
     "mz-modules": "^2.1.0",
     "showdown": "^1.9.0",
