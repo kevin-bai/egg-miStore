@@ -26,6 +26,17 @@ class ToolService extends Service {
 
   }
 
+  async getOrderId(){
+
+    //订单如何生成
+
+    var nowTime=await this.getTime();   
+
+    var randomNum=await this.getRandomNum();
+    return nowTime.toString()+randomNum.toString();
+
+}
+
 
   async captcha(width, height) {
     width = width | 100;

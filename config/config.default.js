@@ -91,7 +91,7 @@ module.exports = appInfo => {
     csrf: {
         // 判断是否需要 ignore 的方法，请求上下文 context 作为第一个参数
         ignore: ctx => {
-          if(config.csrfWhiteList.indexOf(ctx.request.url) > 0){
+          if(config.csrfWhiteList.includes(ctx.request.url)){
             return true;
           }
           return false;
