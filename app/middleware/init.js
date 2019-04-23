@@ -1,6 +1,7 @@
 module.exports = (options, app) => {
 
     return async function init(ctx, next) {
+        console.log('ctx.app.cache',ctx.app.cache)
         ctx.locals.csrf = ctx.csrf // csrf token
         // 获取用户信息
         ctx.state.userinfo = ctx.service.cookies.get('userinfo');
