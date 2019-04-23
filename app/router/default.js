@@ -25,8 +25,8 @@ module.exports = app => {
   // 用户中心
   //router.get('/login', controller.default.user.login);
   //router.get('/register', controller.default.user.register);
-  router.get('/user', controller.default.user.welcome);
-  router.get('/user/order', controller.default.user.order);
+  // router.get('/user', controller.default.user.welcome);
+  // router.get('/user/order', controller.default.user.order);
 
 
   // 购物车
@@ -72,4 +72,10 @@ module.exports = app => {
   router.post('/alipay/pay', initMiddleware, userauthMiddleware, controller.default.alipay.pay);
   router.get('/alipay/alipayReturn', initMiddleware, userauthMiddleware, controller.default.alipay.alipayReturn);
   router.post('/alipay/alipayNotify', initMiddleware, userauthMiddleware, xmlparseMiddleware, controller.default.alipay.alipayNotify);
+
+  // 用户中心
+  router.get('/user/welcome', initMiddleware, userauthMiddleware, controller.default.user.welcome);
+  router.get('/user/order', initMiddleware, userauthMiddleware, controller.default.user.order);
+  router.get('/user/orderinfo', initMiddleware, userauthMiddleware, controller.default.user.orderinfo);
+
 };
