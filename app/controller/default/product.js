@@ -61,10 +61,25 @@ class ProductController extends Controller {
 
     // 商品颜色
     let goods_color = productInfo.goods_color
-    let colorIds = await this.ctx.service.goods.strToIds(goods_color)
-    let goodsColor = await this.ctx.model.GoodsColor.find({
-      $or: colorIds
+    
+    //用$or 实现
+    // let colorIds = await this.ctx.service.goods.strToIds(goods_color)
+    // let goodsColor = await this.ctx.model.GoodsColor.find({
+    //   $or: colorIds
+    // })
+
+    //用$in 实现
+    let arr = goods_color.replace(/'，'/g,',').split(',')
+    let ids = [];
+    arr.forEach(item =>{
+      ids.push(this.app.mongoose.Types.ObjectId(item))
+
     })
+    let goodsColor = await this.ctx.model.GoodsColor.find({
+      _id:{ $in: ids }
+    })
+    console.log('goodsColor',goodsColor)
+
 
     //关联商品
     let relationGoods = await this.ctx.model.Goods.find({
