@@ -6,7 +6,8 @@ class UpdateCache extends Subscription {
     return {
     //   interval: '1m', // 1 分钟间隔
       cron: '*/10 * * * * *', //1分钟10秒间隔
-      type: 'all', // 指定所有的 worker 都需要执行
+      type: 'all', // 指定所有的 worker 都需要执行,
+      disable:true
     };
   }
 
